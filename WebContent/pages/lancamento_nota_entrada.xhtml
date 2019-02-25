@@ -1,0 +1,156 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Lançamento de nota fiscal de entrada
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formEntradaNota">
+						<p:focus context="formEntradaNota" />
+						<p:panel id="pnEntradaNota">
+							<p:fieldset legend="Cabeçalho" toggleable="true">
+								<p:panelGrid id="pgEntradaCabecalho"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Código:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Fornecedor:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText />
+										</p:column>
+										<p:column colspan="2">
+											<p:inputText style="width:80%" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="NF:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Série:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Valor:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Emissão:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Lançamento:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText />
+										</p:column>
+										<p:column>
+											<p:inputText />
+										</p:column>
+										<p:column>
+											<p:inputNumber decimalPlaces="2" decimalSeparator=","
+												symbol="R$ " />
+										</p:column>
+										<p:column>
+											<p:inputMask mask="99/99/9999" />
+										</p:column>
+										<p:column>
+											<p:inputMask mask="99/99/9999" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:fieldset legend="Itens" toggleable="true">
+								<p:panelGrid id="pgEntradaItem" styleClass="ui-panelgrid-blank"
+									style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Material:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText />
+											<p:commandButton icon="ui-icon-search" />
+											<br />
+											<br />
+											<p:commandButton value="Incluir material" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+								<br />
+								<p:dataTable>
+									<p:column headerText="EAN">
+									</p:column>
+									<p:column headerText="Descrição">
+									</p:column>
+									<p:column headerText="Embalagem">
+									</p:column>
+									<p:column headerText="Qtd.">
+									</p:column>
+									<p:column headerText="Valor">
+									</p:column>
+									<p:column headerText="Ações">
+									</p:column>
+								</p:dataTable>
+								<br />
+								<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Total:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Qtd. itens:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText disabled="true" />
+										</p:column>
+										<p:column>
+											<p:inputText disabled="true" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:fieldset legend="Financeiro" toggleable="true">
+								<p:dataTable>
+									<p:column headerText="Vencimento"></p:column>
+									<p:column headerText="Valor"></p:column>
+									<p:column headerText="Desconto"></p:column>
+									<p:column headerText="Acréscimo"></p:column>
+									<p:column headerText="Cód. barras"></p:column>
+									<p:column headerText="Ações">
+									</p:column>
+								</p:dataTable>
+								<br />
+								<br />
+								<p:commandButton value="Incluir financeiro" />
+							</p:fieldset>
+							<br />
+							<br />
+							<p:commandButton value="Finalizar nota" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

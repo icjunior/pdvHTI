@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="operadorRelatorioDataTable" modal="true"
+	resizable="false" header="Relatório de operador - Totais"
+	closeOnEscape="true" width="60%" closable="false">
+	<p:dataTable id="resumoOperadorDT"
+		value="#{relatorioOperadorBean.resumoOperador}" scrollable="true"
+		scrollRows="20" var="resumo" emptyMessage="Nenhum resumo encontrado">
+		<p:column headerText="Operação">
+			<p:outputLabel value="#{resumo.operacao}" />
+		</p:column>
+
+		<p:column headerText="Valor">
+			<p:outputLabel value="#{resumo.total}">
+				<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+			</p:outputLabel>
+		</p:column>
+
+		<f:facet name="footer">
+       		Total em dinheiro: <p:outputLabel
+				value="#{relatorioOperadorBean.valorTotalOperador}">
+				<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+			</p:outputLabel>
+		</f:facet>
+	</p:dataTable>
+</p:dialog>
+</html>

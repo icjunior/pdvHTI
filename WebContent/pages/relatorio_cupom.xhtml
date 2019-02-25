@@ -1,0 +1,102 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Relatório de cupons
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formRelatorioCupom">
+						<p:panel>
+							<p:panelGrid id="pnRelatorioCupom" columns="4"
+								styleClass="ui-panelgrid-blank">
+
+								<p:outputLabel value="Tipo de operação:" for="tipoOperacao" />
+								<p:selectOneMenu id="tipoOperacao"
+									value="#{relatorioCupomBean.operacao}">
+									<f:selectItem itemLabel="Selecione um" noSelectionOption="true"
+										itemDisabled="true" />
+									<f:selectItem itemLabel="SAT" itemValue="1" />
+									<f:selectItem itemLabel="Pré venda" itemValue="2" />
+									<f:selectItem itemLabel="Ambos" itemValue="3" />
+								</p:selectOneMenu>
+								<p:spacer />
+								<p:spacer />
+
+								<p:outputLabel value="Data inicial:" for="dataInicial" />
+								<p:calendar value="#{relatorioCupomBean.dataInicial}"
+									pattern="dd/MM/yyyy" id="dataInicial"
+									converter="#{dateConverter}" />
+
+								<p:outputLabel value="Data final:" for="dataFinal" />
+								<p:calendar value="#{relatorioCupomBean.dataFinal}"
+									pattern="dd/MM/yyyy" id="dataFinal"
+									converter="#{dateConverter}" />
+
+								<p:outputLabel value="PDV:" for="pdv" />
+								<p:inputText value="#{relatorioCupomBean.pdv}" id="pdv" />
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="#{relatorioCupomBean.buscar}"
+								id="btnBuscarRelatorio" update=":cuponsDT"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+						</p:panel>
+					</h:form>
+
+					<p:panel id="pnCupons">
+						<p:dataTable value="#{relatorioCupomBean.cupons}" var="cupom"
+							emptyMessage="Nenhum cupom encontrado" scrollable="true"
+							scrollHeight="300" id="cuponsDT">
+							<p:column headerText="Data">
+								<h:outputText value="#{cupom.data.time}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Cupom">
+								<h:outputText value="#{cupom.codigo}" />
+							</p:column>
+
+							<p:column headerText="PDV">
+								<h:outputText value="#{cupom.terminal}" />
+							</p:column>
+
+							<p:column headerText="Valor">
+								<h:outputText value="#{cupom.valor}">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Operação">
+								<h:outputText value="#{cupom.operacao}" />
+							</p:column>
+
+							<p:column headerText="Operador">
+								<h:outputText value="#{cupom.usuario.nome}" />
+							</p:column>
+
+							<p:column headerText="Método">
+								<h:outputText value="#{cupom.preVenda ? 'Pré venda' : 'SAT'}" />
+							</p:column>
+
+							<f:facet name="footer">
+							Total SAT: R$ #{relatorioCupomBean.valorTotalSAT} - Total pré venda: R$ #{relatorioCupomBean.valorTotalPreVenda} - Total geral: R$ #{relatorioCupomBean.valorTotal}
+							</f:facet>
+						</p:dataTable>
+					</p:panel>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

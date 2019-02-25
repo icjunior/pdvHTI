@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="progressBarDialog" modal="true" header="Aguarde..."
+	resizable="false" closeOnEscape="false" closable="false" width="50%"
+	height="50%" draggable="false">
+	<h:form>
+		<p:progressBar id="progressBar" style="height:6px"
+			mode="indeterminate" />
+	</h:form>
+</p:dialog>
+</html>

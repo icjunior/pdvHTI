@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="estornoDialog" modal="true" closable="false"
+	resizable="false" header="Cancelamento de produto" closeOnEscape="true">
+	<h:form>
+		<p:outputLabel value="Qual a posição do item a ser cancelado?" />
+		<br />
+		<p:inputText value="#{vendaBean.posicaoItem}"
+			style="height:50px; width:50%; font-size: 50px" />
+		<br />
+		<br />
+		<p:commandButton value="Cancelar produto"
+			actionListener="#{vendaBean.cancelaItem}"
+			update=":pnItensRegistrados,:pnResumo" id="btnCancelarProduto"
+			oncomplete="PF('estornoDialog').hide()" />
+	</h:form>
+</p:dialog>
+</html>

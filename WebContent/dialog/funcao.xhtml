@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="executaFuncaoDialog" modal="true" resizable="false"
+	header="Função" closable="true" closeOnEscape="true">
+	<h:form id="formExecutaFuncao">
+		<p:focus context="formExecutaFuncao" />
+		<p:outputPanel id="pnExecutaFuncao">
+			<p:inputText value="#{funcaoBean.funcao}" id="txtFuncao"
+				style="width:600px; height: 90px; font-size: 70px" />
+			<br />
+			<br />
+			<p:commandButton value="Confirmar"
+				onclick="PF('funcaoDialog').hide()"
+				actionListener="#{funcaoBean.selecionar}"
+				oncomplete="PF('executaFuncaoDialog').hide()">
+				<p:ajax event="dialogReturn"
+					listener="#{vendaBean.pedidoSelecionado}"
+					update=":pnItensRegistrados" />
+			</p:commandButton>
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Alteração de preço de venda
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="frmProdutoVenda">
+						<p:focus context="frmProdutoVenda" />
+						<p:growl id="growl" />
+						<p:panel id="pnProdutoVenda">
+							<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
+								id="pgProdutoVenda">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Material:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="2">
+										<p:inputText readonly="true" style="width:50%" id="inItem"
+											value="#{produtoVendaBean.produto.descricao}" />
+										<p:spacer width="10" />
+										<p:commandButton icon="ui-icon-search"
+											alt="Pesquisa de material"
+											actionListener="#{produtoVendaBean.incluirItem}"
+											process="@this">
+											<p:ajax event="dialogReturn"
+												listener="#{produtoVendaBean.produtoSelecionado}"
+												update="inItem,txtVendaAtual" />
+										</p:commandButton>
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Venda atual:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText disabled="true"
+											value="#{produtoVendaBean.produto.valor}" id="txtVendaAtual">
+											<f:convertNumber currencySymbol="R$" type="currency"
+												locale="pt_BR" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Novo preço" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{produtoVendaBean.valorVenda}"
+											tabindex="1" required="true"
+											requiredMessage="Valor de venda deve ser informado">
+											<f:convertNumber pattern="#,##0.00" />
+										</p:inputText>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<b />
+							<p:commandButton value="Gravar" update="growl, pgProdutoVenda"
+								actionListener="#{produtoVendaBean.gravar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

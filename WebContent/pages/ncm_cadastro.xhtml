@@ -1,0 +1,88 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de NCM
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form>
+						<p:growl id="growl" />
+						<p:panel id="pnNCMCadastro">
+							<p:panelGrid id="pgNCMCadastro" styleClass="ui-panelgrid-blank"
+								style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Código:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{ncmCadastroBean.ncm.codigo}"
+											disabled="true" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="NCM:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{ncmCadastroBean.ncm.ncm}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Descrição:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputTextarea value="#{ncmCadastroBean.ncm.descricao}"
+											cols="80" rows="5" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Data inicial:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="Data final:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:calendar value="#{ncmCadastroBean.ncm.dataInicio}"
+											pattern="dd/MM/yyyy" converter="#{dateConverter}" />
+									</p:column>
+									<p:column>
+										<p:calendar value="#{ncmCadastroBean.ncm.dataFim}"
+											pattern="dd/MM/yyyy" converter="#{dateConverter}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Gravar" id="btnGravar"
+								actionListener="#{ncmCadastroBean.gravar}"
+								update="pgNCMCadastro, growl" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="estornoCupomDialog" modal="true" closable="false"
+	resizable="false" header="Cancelamento de cupom" closeOnEscape="true">
+	<h:form>
+		<p:outputPanel>
+			<h:outputLabel value="Tem certeza que deseja cancelar o cupom todo?" />
+			<br />
+			<br />
+			<p:commandButton value="Sim"
+				actionListener="#{vendaBean.registrarCancelamentoCupom}"
+				style="width:200px"
+				update=":formLancamento:panel, :pnItensRegistrados"
+				oncomplete="PF('estornoCupomDialog').hide()" />
+			<p:commandButton value="Não"
+				oncomplete="PF('estornoCupomDialog').hide()" style="width:200px" />
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

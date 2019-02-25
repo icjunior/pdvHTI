@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Ajustes de estoque
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formAjusteEstoque">
+						<p:growl id="growl" />
+						<p:panel id="pnAjusteEstoque">
+							<p:panelGrid id="pgAjusteEstoque" styleClass="ui-panelgrid-blank"
+								style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Material:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="2">
+										<p:inputText readonly="true" style="width:50%" id="inItem"
+											value="#{produtoEstoqueBean.produtoAjuste.produto.descricao}" />
+										<p:spacer width="10" />
+										<p:commandButton icon="ui-icon-search"
+											alt="Pesquisa de material"
+											actionListener="#{produtoEstoqueBean.incluirItem}"
+											process="@this">
+											<p:ajax event="dialogReturn"
+												listener="#{produtoEstoqueBean.produtoSelecionado}"
+												update="inItem, estoqueAtual" />
+										</p:commandButton>
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Estoque atual:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText disabled="true" id="estoqueAtual"
+											value="#{produtoEstoqueBean.produtoAjuste.produto.estoque}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Tipo de ajuste:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:selectOneMenu id="tiposAjusteList"
+											value="#{produtoEstoqueBean.produtoAjuste.tipoAjuste}"
+											style="width:125px" converter="#{tipoAjusteConverter}"
+											required="true"
+											requiredMessage="Tipo de ajuste deve ser selecionado">
+											<f:selectItem itemLabel="Selecione um"
+												noSelectionOption="true" itemDisabled="true" />
+											<f:selectItems value="#{tipoAjusteBean.ajustes}"
+												var="tipoAjuste" itemValue="#{tipoAjuste}"
+												itemLabel="#{tipoAjuste}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Quantidade:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText
+											value="#{produtoEstoqueBean.produtoAjuste.quantidade}"
+											required="true"
+											requiredMessage="Quantidade deve ser informada" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Observação" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputTextarea rows="3"
+											value="#{produtoEstoqueBean.produtoAjuste.observacao}"
+											style="width:50%" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Gravar"
+								actionListener="#{produtoEstoqueBean.gravar}"
+								update="growl, pgAjusteEstoque" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

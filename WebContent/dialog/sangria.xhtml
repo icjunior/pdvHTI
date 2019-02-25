@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="sangriaDialog" modal="true" resizable="false"
+	header="Sangria" closable="false" closeOnEscape="true">
+	<h:form id="formSangria">
+		<p:growl id="growl" />
+		<p:focus context="formSangria" />
+		<p:panel id="panelSangria">
+			<p:outputPanel id="pnSangria">
+				<h:outputText value="Valor:" />
+				<br />
+				<p:inputText value="#{sangriaBean.valor}"
+					style="width:600px; height: 90px; font-size: 70px" id="valor">
+					<f:convertNumber pattern="#,##0.00" />
+				</p:inputText>
+				<br />
+				<br />
+				<h:outputLabel value="Justificativa:" />
+				<br />
+				<p:inputText value="#{sangriaBean.observacao}"
+					id="observacaoSangria"
+					style="width:600px; height: 90px; font-size: 70px" required="true"
+					requiredMessage="Justificativa deve ser preenchida" />
+			</p:outputPanel>
+			<br />
+			<p:commandButton value="Confirmar"
+				actionListener="#{sangriaBean.registrar}"
+				update="panelSangria growl">
+				<p:confirm header="Confirmação"
+					message="Deseja realmente lançar a sangria?"
+					icon="pi pi-exclamation-triangle" />
+			</p:commandButton>
+		</p:panel>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+	</h:form>
+</p:dialog>
+</html>

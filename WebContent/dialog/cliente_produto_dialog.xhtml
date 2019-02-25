@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="clienteProdutoDialog" modal="true"
+	resizable="false" header="Relacionamento cliente e produto" width="60%"
+	closeOnEscape="true">
+	<h:form id="formClienteProdutoDialog">
+		<p:focus context="formClienteProdutoDialog" />
+		<p:growl id="growlClienteProduto" />
+		<p:panel id="pnClienteProduto">
+			<p:panelGrid id="pgClienteProduto" styleClass="ui-panelgrid-blank"
+				style="width:100%">
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Material:" />
+						<br />
+						<p:inputText disabled="true" style="width:50%" id="inItem"
+							value="#{tabelaClienteCadastraBean.clienteProduto.produto.descricao}" />
+						<p:spacer width="10" />
+						<p:commandButton icon="ui-icon-search" alt="Pesquisa de material"
+							actionListener="#{tabelaClienteCadastraBean.incluirItem}">
+							<p:ajax event="dialogReturn"
+								listener="#{tabelaClienteCadastraBean.produtoSelecionado}"
+								update="pnClienteProduto" />
+						</p:commandButton>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Vlr. original" />
+						<br />
+						<p:inputText disabled="true"
+							value="#{tabelaClienteCadastraBean.clienteProduto.produto.valor}"
+							id="valorOriginal">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</p:inputText>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Vlr. tabela" />
+						<br />
+						<p:inputText id="valorTabela"
+							value="#{tabelaClienteCadastraBean.clienteProduto.valor}">
+							<f:convertNumber pattern="#,##0.00" />
+						</p:inputText>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Incluir" id="btnIncluirClienteProduto"
+				update="growlClienteProduto, :formClienteProduto:clienteProdutosDT"
+				actionListener="#{tabelaClienteCadastraBean.gravarItem}"
+				onsuccess="PF('clienteProdutoDialog').hide()" />
+		</p:panel>
+	</h:form>
+</p:dialog>
+</html>

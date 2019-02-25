@@ -1,0 +1,90 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Visão geral de clientes
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formClienteGeral">
+						<p:growl id="growl" />
+						<p:panel id="pnClienteGeral">
+							<p:panelGrid id="pgClienteGeral" styleClass="ui-panelgrid-blank"
+								style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="CPF/CNPJ:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText id="cpfCnpj" value="#{clienteBean.cnpj}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Nome:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="Fantasia:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText style="width:80%" id="nome"
+											value="#{clienteBean.nome}" />
+									</p:column>
+									<p:column>
+										<p:inputText value="#{clienteBean.fantasia}" style="width:80%"
+											id="fantasia" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="#{clienteBean.pesquisar}"
+								update="growl,clientesDT"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+							<br />
+							<br />
+							<p:dataTable id="clientesDT" value="#{clienteBean.clientes}"
+								var="cliente" emptyMessage="Nenhum cliente encontrado"
+								selection="#{clienteBean.cliente}" rowKey="#{cliente.codigo}"
+								selectionMode="single">
+
+								<p:column headerText="Código">
+									<h:outputText value="#{cliente.codigo}" />
+								</p:column>
+
+								<p:column headerText="Nome">
+									<h:outputText value="#{cliente.nome}" />
+								</p:column>
+
+								<p:column headerText="CNPJ">
+									<h:outputText value="#{cliente.cpfCnpj}" />
+								</p:column>
+							</p:dataTable>
+							<br />
+							<br />
+							<p:commandButton value="Novo" action="#{clienteBean.novo}" />
+							<p:spacer width="10" />
+							<p:commandButton value="Editar" action="#{clienteBean.editar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

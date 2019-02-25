@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+	<!-- TOPBAR START -->
+	<div id="layout-topbar">
+		<a id="mobile-menu-button"> <span class="ButtonLine"
+			id="ButtonLine1"></span> <span class="ButtonLine" id="ButtonLine2"></span>
+			<span class="ButtonLine" id="ButtonLine3"></span>
+		</a>
+		<h:graphicImage name="images/logo_armazem_cimento.jpeg"
+			styleClass="Fleft" library="modena-layout" height="100%" />
+		<a id="show-top-menu" class="ShowOnMobile ripplelink"><i
+			class="icon-more_vert" id="active"></i><i class="icon-close DispNone"
+			id="passive"></i> </a>
+
+		<ul id="top-menu">
+			<li><a class="ripplelink"><i class="icon-cog"></i> <span
+					class="ShowOnMobile">Settings</span></a>
+				<ul>
+					<li><a href="#"><i class="icon-flag2"></i> Language
+							Settings</a></li>
+					<li><a href="#"><i class="icon-settings"></i> System
+							Settings</a></li>
+					<li><a href="#"><i class="icon-verified_user"></i>
+							Security Settings</a></li>
+					<li><a href="#"><i class="icon-assignment_ind"></i> Users
+							Settings</a></li>
+				</ul></li>
+			<li><a class="ripplelink"><i class="icon-power"></i> <span
+					class="ShowOnMobile">System</span></a>
+				<ul>
+					<li><a href="#"><span class="Blue"><i
+								class="icon-airline_seat_individual_suite Fs30 DispBlock"></i>
+								Sleep Mode</span></a></li>
+					<li><a href="#"><span class="Orange"><i
+								class="icon-track_changes Fs30 DispBlock"></i> Restart System</span></a></li>
+					<li><a href="#"><span class="Red"><i
+								class="icon-vpn_key Fs30 DispBlock"></i> Logout</span></a></li>
+				</ul></li>
+		</ul>
+	</div>
+	<!-- TOPBAR END -->
+
+</ui:composition>

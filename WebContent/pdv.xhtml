@@ -1,0 +1,198 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/WEB-INF/template.xhtml">
+
+	<ui:define name="subheader">
+        PDV HTI
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="dialog/operador_login.xhtml" />
+		<ui:include src="dialog/operador_logout.xhtml" />
+		<ui:include src="dialog/cupom_estorno.xhtml" />
+		<ui:include src="dialog/cupom_subtotal.xhtml" />
+		<ui:include src="dialog/cupom_troco.xhtml" />
+		<ui:include src="dialog/item_estorno.xhtml" />
+		<ui:include src="dialog/cpfCnpj.xhtml" />
+		<ui:include src="dialog/funcoes.xhtml" />
+		<ui:include src="dialog/reforco.xhtml" />
+		<ui:include src="dialog/sangria.xhtml" />
+		<ui:include src="dialog/operador_relatorio.xhtml" />
+		<ui:include src="dialog/operador_relatorio_datatable.xhtml" />
+		<ui:include src="dialog/funcao.xhtml" />
+		<ui:include src="dialog/produto_consulta.xhtml" />
+		<ui:include src="dialog/progressbar.xhtml" />
+
+		<div class="w_100" style="height: 15%">
+			<p:outputPanel id="pnStatusPDV">
+				<p:outputLabel value="Caixa Fechado"
+					rendered="#{usuarioLogado.usuario == null}" style="font-size: 50px" />
+				<p:outputLabel value="Caixa Livre"
+					rendered="#{usuarioLogado.usuario != null and vendaBean.itens == null}"
+					style="font-size: 50px" />
+				<p:outputLabel value="Venda"
+					rendered="#{usuarioLogado.usuario != null and vendaBean.itens != null}"
+					style="font-size: 50px" />
+			</p:outputPanel>
+		</div>
+		<div class="w_60"
+			style="height: 75%; overflow: hidden; width: 58%; margin: 0px 10px 0px 10px; float: left; background: #FFFFFF">
+			<div style="width: 65%; float: left; background: #FFFFFF">
+				<h:form>
+					<p:hotkey bind="F4" oncomplete="PF('subTotal').show()"
+						update=":pnSubTotal,:formPagamentos:pagamentosDT" />
+					<p:hotkey bind="ctrl+shift+f"
+						oncomplete="PF('executaFuncaoDialog').show()" />
+					<p:hotkey bind="F8" actionListener="#{vendaBean.confirmaPreVenda}"
+						update=":status" />
+				</h:form>
+
+				<h:form id="formLancamento">
+					<p:focus context="formLancamento" />
+					<p:panel id="panel" style="height:70%; border:0px !important;"
+						styleClass="ui-panelgrid-blank">
+						<p:outputLabel value="Código" />
+						<br />
+						<p:inputText value="#{vendaBean.produto.ean}"
+							style="height:50px; width:90%; font-size: 50px" id="ean"
+							required="true" tabindex="1">
+							<p:ajax event="blur" update="descricao, vlrUnitario"
+								listener="#{vendaBean.validaProduto}" />
+							<p:ajax event="change" update="descricao, vlrUnitario"
+								listener="#{vendaBean.validaProduto}" />
+						</p:inputText>
+						<br />
+						<br />
+						<p:inputText disabled="true"
+							value="#{vendaBean.produto.descricao}" id="descricao"
+							style="height:50px; width:150%; font-size: 30px" />
+						<br />
+						<br />
+						<p:panelGrid columns="2" styleClass="ui-panelgrid-blank"
+							style="width: 150%; padding: 0%" id="pgValores">
+							<p:outputLabel value=" Qtde." />
+							<p:outputLabel value="Vlr. unitário" />
+
+							<p:inputText value="#{vendaBean.cupomItem.quantidade}"
+								style="width: 80%; height:50px; font-size: 50px" id="quantidade"
+								required="true" />
+							<p:inputText value="#{vendaBean.cupomItem.valor}"
+								style="width: 80%; height: 50px; font-size: 50px"
+								id="vlrUnitario" placeholder="#{vendaBean.cupomItem.valor}"
+								tabindex="2">
+								<f:convertNumber pattern="#,##0.00" />
+							</p:inputText>
+
+						</p:panelGrid>
+						<p:commandButton actionListener="#{vendaBean.gravarItem}" value=""
+							style="height:0px; width:0px" id="btnGravarLancamento"
+							update=":pnItensRegistrados, panel, :pnStatusPDV, :pnResumo, pgValores"
+							onsuccess="$(function(){PrimeFaces.focus('formLancamento:ean');});" />
+					</p:panel>
+				</h:form>
+			</div>
+			<div style="width: 30%; float: left; background: #FFFFFF">
+				<p:graphicImage
+					value="#{configuracaoAtiva.configuracao.carregaLogo}"
+					height="107px" />
+			</div>
+			<div style="clear: both">
+				<p:panel style="border:0px !important"
+					styleClass="ui-panelgrid-blank" id="pnResumo">
+					<p:outputLabel value="Qtde. de itens" />
+					<p:spacer width="46%" height="10" />
+					<p:outputLabel value="SubTotal" />
+					<br />
+					<p:inputText value="#{vendaBean.itens.size()}" disabled="true"
+						style="height:20%; width:30%; font-size: 50px" id="volumes" />
+					<p:spacer width="10" height="10" />
+					<p:inputText value="#{vendaBean.subTotal}" disabled="true"
+						style="height:20%; width:60%; font-size: 50px" id="subTotalItens">
+						<f:convertNumber currencySymbol="R$" type="currency"
+							locale="pt_BR" />
+					</p:inputText>
+				</p:panel>
+			</div>
+		</div>
+		<div class="w_40" style="height: 75%">
+			<div>
+				<p:outputPanel id="pnItensRegistrados"
+					style="background: nome; border:0px;">
+					<p:outputLabel value="Cliente: #{vendaBean.cliente.nome}"
+						style="font-size: 12px !important" />
+					<br />
+					<p:outputLabel value="Consumidor: #{vendaBean.cpfCnpj}"
+						style="font-size: 12px !important" />
+					<br />
+					<p:panelGrid styleClass="ui-panelgrid-blank"
+						style="width:100%;font-size: 12px !important; margin:0 0 0 0">
+						<p:row>
+							<p:column colspan="6">Produtos</p:column>
+						</p:row>
+						<p:row>
+							<p:column style="width:3%">Item</p:column>
+							<p:column style="width:5%">EAN</p:column>
+							<p:column style="width:40%">Descrição</p:column>
+							<p:column style="width:3%">Qtd.</p:column>
+							<p:column>Valor</p:column>
+							<p:column>Total</p:column>
+						</p:row>
+						<p:dataList value="#{vendaBean.itens}" var="item"
+							type="definition" widgetVar="itensLancados"
+							emptyMessage="Nenhum item registrado"
+							style="background: #F2F5A9; border:none; width:100%;font-size: 12px !important;">
+							<p:row style="background: #F2F5A9">
+								<p:column>#{item.sequencia}</p:column>
+								<p:column>#{item.produto.ean}</p:column>
+								<p:column>#{item.produto.descricao}</p:column>
+								<p:column>#{item.quantidade}</p:column>
+								<p:column>
+									<h:outputText value="#{item.valor}">
+										<f:convertNumber locale="pt_BR" type="currency" />
+									</h:outputText>
+								</p:column>
+								<p:column>
+									<h:outputText value="#{item.valorTotal}">
+										<f:convertNumber locale="pt_BR" type="currency" />
+									</h:outputText>
+								</p:column>
+							</p:row>
+						</p:dataList>
+					</p:panelGrid>
+				</p:outputPanel>
+			</div>
+		</div>
+		<div class="w_100" style="height: 5%">
+			<p:outputPanel>
+				<p:commandButton value="Finalizar venda" id="btnFinalizarVenda"
+					onclick="PF('subTotal').show()"
+					update=":pnSubTotal,:formPagamentos:pagamentosDT" />
+				<p:commandButton value="Menu de funções"
+					onclick="PF('funcaoDialog').show()" id="btnMenuFuncoes" />
+
+				<h:outputLabel value="Operador: #{usuarioLogado.usuario.nome}"
+					id="operador" />
+				<h:outputLabel value="Pré Venda #{vendaBean.preVenda}" id="status" />
+			</p:outputPanel>
+		</div>
+
+		<p:dialog widgetVar="configDialog" modal="true" closable="false"
+			resizable="false" header="Configuração de terminal"
+			closeOnEscape="true">
+			<h:form>
+				<p:outputPanel>
+					<p:outputLabel value="Número de terminal:" />
+					<br />
+					<p:inputText value="#{configuracaoBean.configuracao.terminal}"
+						decimalPlaces="0" />
+				</p:outputPanel>
+				<br />
+				<p:commandButton value="Gravar"
+					actionListener="#{configuracaoBean.gravar}"
+					oncomplete="PF(configDialog).hide()" />
+			</h:form>
+		</p:dialog>
+	</ui:define>
+</ui:composition>

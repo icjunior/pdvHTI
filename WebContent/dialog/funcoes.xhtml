@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="funcaoDialog" modal="true" resizable="false"
+	header="Lista de funções" closable="true" closeOnEscape="true">
+	<h:form id="formFuncao">
+		<p:focus context="formFuncao" />
+		<p:outputPanel id="pnFuncao">
+			<p:panelGrid>
+				<f:facet name="header">
+					<p:row>
+						<p:column>Função</p:column>
+						<p:column>Nome</p:column>
+					</p:row>
+				</f:facet>
+				<p:row>
+					<p:column>1</p:column>
+					<p:column>SubTotal</p:column>
+				</p:row>
+				<p:row>
+					<p:column>2</p:column>
+					<p:column>Consulta de produtos</p:column>
+				</p:row>
+				<p:row>
+					<p:column>3</p:column>
+					<p:column>Entrada de operador</p:column>
+				</p:row>
+				<p:row>
+					<p:column>4</p:column>
+					<p:column>Cancelamento de item no cupom</p:column>
+				</p:row>
+				<p:row>
+					<p:column>5</p:column>
+					<p:column>Saída de operador</p:column>
+				</p:row>
+				<p:row>
+					<p:column>6</p:column>
+					<p:column>Configuração de terminal</p:column>
+				</p:row>
+				<p:row>
+					<p:column>7</p:column>
+					<p:column>Cancelamento de cupom</p:column>
+				</p:row>
+				<p:row>
+					<p:column>8</p:column>
+					<p:column>Identificação de cliente (NFP)</p:column>
+				</p:row>
+				<p:row>
+					<p:column>9</p:column>
+					<p:column>Relatório de operador</p:column>
+				</p:row>
+				<p:row>
+					<p:column>10</p:column>
+					<p:column>Sangria</p:column>
+				</p:row>
+				<p:row>
+					<p:column>11</p:column>
+					<p:column>Reforço</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<p:inputText value="#{funcaoBean.funcao}" size="10" />
+			<p:commandButton value="Selecionar"
+				onclick="PF('funcaoDialog').hide()"
+				actionListener="#{funcaoBean.selecionar}">
+				<p:ajax event="dialogReturn"
+					listener="#{vendaBean.produtoSelecionado}"
+					update=":formLancamento:panel" />
+			</p:commandButton>
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

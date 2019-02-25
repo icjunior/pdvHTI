@@ -1,0 +1,82 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de departamentos
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formDepartamentoCadastro">
+						<p:growl id="growl" showDetail="true" />
+						<p:focus context="formDepartamentoCadastro" />
+						<p:panel id="pnDepartamentoCadastro">
+							<p:fieldset title="Dados mestres" legend="Dados mestres"
+								toggleable="true">
+								<p:panelGrid id="pgDepartamentoCadastro"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Código:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText disabled="true"
+												value="#{departamentoBean.departamento.codigo}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Descrição:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText
+												value="#{departamentoBean.departamento.descricao}"
+												style="width:50%" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Ativo:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:selectOneMenu id="statusList"
+												value="#{departamentoBean.departamento.ativo}"
+												style="width:125px" required="true"
+												requiredMessage="Status deve ser selecionado">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItem itemValue="true" itemLabel="Sim" />
+												<f:selectItem itemValue="false" itemLabel="Não" />
+											</p:selectOneMenu>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:commandButton value="Gravar"
+								actionListener="#{departamentoBean.gravar}"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

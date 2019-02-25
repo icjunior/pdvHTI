@@ -1,0 +1,137 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Relatório de itens
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="frmRelatorioItem">
+						<p:growl id="growl" />
+						<p:panel id="pnRelatorioItem">
+							<p:panelGrid id="pgRelatorioItem" styleClass="ui-panelgrid-blank">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Data inicial:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="Data final:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="PDV:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="Cupom:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:calendar pattern="dd/MM/yyyy" id="caDataInicial"
+											required="true"
+											requiredMessage="Data inicial deve ser informada"
+											value="#{relatorioItemBean.dataInicial}"
+											converter="#{dateConverter}" timeZone="America/Sao_Paulo" />
+									</p:column>
+
+									<p:column>
+										<p:calendar pattern="dd/MM/yyyy" id="caDataFinal"
+											required="true"
+											requiredMessage="Data final deve ser informada"
+											value="#{relatorioItemBean.dataFinal}"
+											converter="#{dateConverter}" timeZone="America/Sao_Paulo" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtPDV" value="#{relatorioItemBean.pdv}" />
+									</p:column>
+									<p:column>
+										<p:inputText id="txtCupom" value="#{relatorioItemBean.cupom}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column colspan="2">
+										<h:outputLabel value="Cliente:" />
+									</p:column>
+									<p:column colspan="2">
+										<h:outputLabel value="Produto:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column colspan="2">
+										<p:inputText id="inCliente"
+											value="#{relatorioItemBean.cliente.nome}" disabled="true"
+											style="width:80%" />
+										<p:spacer width="10" />
+										<p:commandButton icon="ui-icon-search"
+											id="btnPesquisarCliente"
+											actionListener="#{relatorioItemBean.incluirCliente}"
+											process="@this">
+											<p:ajax event="dialogReturn"
+												listener="#{relatorioItemBean.clienteSelecionado}"
+												update="inCliente" />
+										</p:commandButton>
+									</p:column>
+									<p:column colspan="2">
+										<p:inputText disabled="true" style="width:80%" id="inItem"
+											value="#{relatorioItemBean.produto.descricao}" />
+										<p:spacer width="10" />
+										<p:commandButton icon="ui-icon-search"
+											alt="Pesquisa de material"
+											actionListener="#{relatorioItemBean.incluirItem}"
+											process="@this">
+											<p:ajax event="dialogReturn"
+												listener="#{relatorioItemBean.produtoSelecionado}"
+												update="inItem" />
+										</p:commandButton>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar" id="btnBuscar"
+								update="itensDT, growl"
+								actionListener="#{relatorioItemBean.buscar}"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+						</p:panel>
+						<br />
+						<p:dataTable id="itensDT" emptyMessage="Nenhum item encontrado"
+							value="#{relatorioItemBean.itens}" var="item" scrollable="true"
+							scrollHeight="200">
+							<p:column headerText="Data">
+								<h:outputLabel value="#{item.cupom.data.time}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+								</h:outputLabel>
+							</p:column>
+							<p:column headerText="PDV">
+								<h:outputLabel value="#{item.cupom.terminal}" />
+							</p:column>
+							<p:column headerText="Cupom">
+								<h:outputLabel value="#{item.cupom.codigo}" />
+							</p:column>
+							<p:column headerText="Material">
+								<h:outputLabel value="#{item.produto.descricao}" />
+							</p:column>
+							<p:column headerText="Quantidade">
+								<h:outputLabel value="#{item.quantidade}" />
+							</p:column>
+							<p:column headerText="Valor">
+								<h:outputLabel value="#{item.valor}">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</h:outputLabel>
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,105 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Relatório de finalizadoras
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<ui:include src="/dialog/dialog_relatorio_finalizadora.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formRealtorioFinalizadora">
+						<p:growl id="growl" />
+						<p:panel id="pnRelatorioFinalizadora">
+							<p:panelGrid styleClass="ui-panelgrid-blank">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Data inicial:" />
+									</p:column>
+
+									<p:column>
+										<h:outputLabel value="Data final:" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<p:calendar pattern="dd/MM/yyyy"
+											value="#{relatorioFormaPagamentoBean.dataInicial}"
+											converter="#{dateConverter}" required="true"
+											requiredMessage="Data inicial deve ser informada"
+											id="caDataInicial" />
+									</p:column>
+
+									<p:column>
+										<p:calendar pattern="dd/MM/yyyy"
+											value="#{relatorioFormaPagamentoBean.dataFinal}"
+											converter="#{dateConverter}" required="true"
+											requiredMessage="Data final deve ser informada"
+											id="caDataFinal" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column colspan="2">
+										<h:outputLabel value="PDV" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column colspan="2">
+										<p:inputText value="#{relatorioFormaPagamentoBean.pdv}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="${relatorioFormaPagamentoBean.buscar}"
+								id="btnBuscar" update="finalizadorasDT, growl"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+						</p:panel>
+						<br />
+						<br />
+						<p:dataTable value="#{relatorioFormaPagamentoBean.finalizadoras}"
+							scrollable="true" scrollHeight="200" var="finalizadora"
+							emptyMessage="Nenhuma finalizadora encontrada"
+							id="finalizadorasDT">
+
+							<p:column headerText="PDV">
+								<h:outputLabel value="#{finalizadora.pdv}" />
+							</p:column>
+
+							<p:column headerText="Finalizadora">
+								<p:commandLink
+									actionListener="#{relatorioFormaPagamentoBean.consultaCupomPorFinalizadora(finalizadora)}"
+									value="#{finalizadora.nome}"
+									onclick="PF('dialogRelatorioFinalizadora').show(), PF('progressBarDialog').show()"
+									update=":formDialogRelatorioFinalizadora:cuponsDT"
+									oncomplete="PF('progressBarDialog').hide()" />
+							</p:column>
+
+							<p:column headerText="Valor">
+								<h:outputLabel value="#{finalizadora.valor}">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</h:outputLabel>
+							</p:column>
+
+							<p:column headerText="Qtd. cupons">
+								<h:outputLabel value="#{finalizadora.quantidade}" />
+							</p:column>
+						</p:dataTable>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

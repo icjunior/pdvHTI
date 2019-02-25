@@ -1,0 +1,265 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de produtos
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formProdutoCadastro">
+						<p:growl id="growl" showDetail="true" />
+						<p:focus context="formProdutoCadastro" />
+						<p:panel id="pnProdutoCadastro" style="width:100%">
+							<p:fieldset title="Dados mestres" legend="Dados mestres"
+								toggleable="true">
+								<p:panelGrid id="pgProdutoDadosMestres"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+
+									<p:row>
+										<p:column style="width:50%">
+											<h:outputLabel value="Código:" />
+										</p:column>
+										<p:column style="width:33%">
+											<h:outputLabel value="EAN:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText disabled="true"
+												value="#{produtoCadastroBean.produto.codigo}" />
+										</p:column>
+										<p:column>
+											<p:inputText value="#{produtoCadastroBean.produto.ean}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Descrição:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Departamento:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText style="width:80%"
+												value="#{produtoCadastroBean.produto.descricao}" required="true"
+												requiredMessage="Descrição deve ser informada" />
+										</p:column>
+										<p:column>
+											<p:selectOneMenu id="departamentoList"
+												value="#{produtoCadastroBean.produto.departamento}"
+												style="width:125px" converter="#{departamentoConverter}"
+												required="true"
+												requiredMessage="Departamento deve ser selecionado">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItems value="#{departamentoBean.departamentos}"
+													var="departamento" itemValue="#{departamento}"
+													itemLabel="#{departamento}" />
+											</p:selectOneMenu>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Venda:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Estoque:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText disabled="true"
+												value="#{produtoCadastroBean.produto.valor}">
+												<f:convertNumber currencySymbol="R$" type="currency"
+													locale="pt_BR" />
+											</p:inputText>
+										</p:column>
+										<p:column>
+											<p:inputText disabled="true"
+												value="#{produtoCadastroBean.produto.estoque}" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:fieldset legend="Impostos" toggleable="true">
+								<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
+									id="pgProdutoImpostos">
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="NCM:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="CEST:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:autoComplete id="ncm" minQueryLength="3"
+												value="#{produtoCadastroBean.produto.ncm}"
+												completeMethod="#{produtoCadastroBean.ncmAutoComplete}"
+												effect="fade" converter="#{ncmConverter}" />
+										</p:column>
+										<p:column>
+											<p:autoComplete id="cest" minQueryLength="3"
+												value="#{produtoCadastroBean.produto.cest}"
+												completeMethod="#{produtoCadastroBean.cestAutoComplete}"
+												effect="fade" converter="#{cestConverter}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column colspan="2">
+											<h:outputLabel value="ICMS:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column colspan="2">
+											<p:selectOneMenu id="icmsList"
+												value="#{produtoCadastroBean.produto.aliquota}" style="width:60%"
+												converter="#{aliquotaConverter}" required="true"
+												requiredMessage="ICMS deve ser selecionado">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItems value="#{aliquotaBean.aliquotas}"
+													var="aliquota" itemValue="#{aliquota}"
+													itemLabel="#{aliquota}" />
+											</p:selectOneMenu>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="PIS:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="CST PIS:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:selectBooleanCheckbox value="#{produtoCadastroBean.produto.pis}">
+												<p:ajax event="change" update="cstPisList" />
+											</p:selectBooleanCheckbox>
+										</p:column>
+										<p:column>
+											<p:selectOneMenu id="cstPisList"
+												value="#{produtoCadastroBean.produto.cstPis}" style="width:125px"
+												disabled="#{!produtoCadastroBean.produto.pis}"
+												converter="#{cstConverter}">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItems value="#{produtoCadastroBean.CSTPIS}" var="cst"
+													itemValue="#{cst}" itemLabel="#{cst}" />
+											</p:selectOneMenu>
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="COFINS:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="CST COFINS:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:selectBooleanCheckbox
+												value="#{produtoCadastroBean.produto.cofins}">
+												<p:ajax event="change" update="cstCofinsList" />
+											</p:selectBooleanCheckbox>
+										</p:column>
+										<p:column>
+											<p:selectOneMenu id="cstCofinsList"
+												value="#{produtoCadastroBean.produto.cstCofins}" style="width:125px"
+												disabled="#{!produtoCadastroBean.produto.cofins}"
+												converter="#{cstConverter}">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItems value="#{produtoCadastroBean.CSTCOFINS}" var="cst"
+													itemValue="#{cst}" itemLabel="#{cst}" />
+											</p:selectOneMenu>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:fieldset legend="Status" toggleable="true">
+								<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
+									id="pgProdutoStatus">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Proíbe venda:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Proíbe compra:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Ativo:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:selectBooleanCheckbox
+												value="#{produtoCadastroBean.produto.proibeVenda}" />
+										</p:column>
+										<p:column>
+											<p:selectBooleanCheckbox
+												value="#{produtoCadastroBean.produto.proibeCompra}" />
+										</p:column>
+										<p:column>
+											<p:selectBooleanCheckbox value="#{produtoCadastroBean.produto.ativo}" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Incluído por:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Data de inclusão:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText disabled="true"
+												value="#{produtoCadastroBean.produto.usuario.nome}" />
+										</p:column>
+										<p:column>
+											<p:inputText disabled="true"
+												value="#{produtoCadastroBean.produto.dataInclusao.time}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+											</p:inputText>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:commandButton value="Salvar"
+								actionListener="#{produtoCadastroBean.gravar}"
+								update="growl, pnProdutoCadastro"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

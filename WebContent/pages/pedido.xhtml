@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Consulta de Pedidos
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="frmPedido">
+						<p:growl id="growl" />
+						<p:panel id="pnPedido" toggleable="true" toggleTitle="Filtro">
+							<p:panelGrid columns="4" styleClass="ui-panelgrid-blank">
+								<h:outputLabel value="Número: " />
+								<p:inputText value="#{pedidoBean.numeroPedido}" />
+								<p:spacer />
+								<p:spacer />
+
+								<p:outputLabel value="Data inicial:" />
+								<p:calendar value="#{pedidoBean.dataInicial}"
+									pattern="dd/MM/yyyy" required="true"
+									requiredMessage="Data inicial deve ser informada"
+									converter="#{dateConverter}" />
+								<p:outputLabel value="Data final:" />
+								<p:calendar value="#{pedidoBean.dataFinal}" pattern="dd/MM/yyyy"
+									required="true" requiredMessage="Data final deve ser informada"
+									converter="#{dateConverter}" />
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="#{pedidoBean.buscar}"
+								update=":outPedidosBusca, growl"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+						</p:panel>
+						<br />
+						<p:commandButton value="Novo Pedido" action="#{pedidoBean.novo}"
+							process="@this" />
+					</h:form>
+					<br />
+					<p:outputPanel id="outPedidosBusca">
+						<p:panel id="pnPedidosBusca"
+							rendered="#{pedidoBean.pedidos != null}">
+							<p:dataTable id="pedidosDT" value="#{pedidoBean.pedidos}"
+								var="pedido" scrollable="true" scrollHeight="200">
+
+								<p:column headerText="Código">
+									<h:outputText value="#{pedido.codigo}" />
+								</p:column>
+
+								<p:column headerText="Loja">
+									<h:outputText value="#{pedido.loja.nome}" />
+								</p:column>
+
+								<p:column headerText="Data">
+									<h:outputText value="#{pedido.dataInclusao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm" />
+									</h:outputText>
+								</p:column>
+							</p:dataTable>
+						</p:panel>
+					</p:outputPanel>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

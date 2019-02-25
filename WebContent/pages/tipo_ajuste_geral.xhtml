@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Manutenção de ajustes de estoque
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form>
+						<p:panel>
+							<p:dataTable value="#{tipoAjusteBean.ajustes}" var="ajuste"
+								emptyMessage="Nenhum tipo de ajuste cadastrado"
+								selection="#{tipoAjusteBean.tipoAjuste}" selectionMode="single"
+								rowKey="#{ajuste.codigo}" scrollable="true" scrollHeight="250">
+								<p:column headerText="Código">
+									<h:outputLabel value="#{ajuste.codigo}" />
+								</p:column>
+								<p:column headerText="Descrição">
+									<h:outputLabel value="#{ajuste.descricao}" />
+								</p:column>
+								<p:column headerText="Tipo de movimento">
+									<h:outputLabel value="#{ajuste.tipoMovimentacaoEstoque}" />
+								</p:column>
+							</p:dataTable>
+							<br />
+							<br />
+							<p:commandButton value="Novo" action="#{tipoAjusteBean.novo}" />
+							<p:commandButton value="Editar" action="#{tipoAjusteBean.editar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

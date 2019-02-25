@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de tabela de produtos para cliente
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/cliente_produto_dialog.xhtml" />
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formClienteProduto">
+						<p:growl id="growl" />
+						<p:panel id="pnClienteProduto">
+							<h:outputLabel value="Cliente:" />
+							<br />
+							<p:inputText disabled="true" style="width:50%" id="inCliente"
+								value="#{tabelaClienteCadastraBean.cliente.nome}" />
+							<p:spacer width="10" />
+							<p:commandButton icon="ui-icon-search"
+								actionListener="#{tabelaClienteCadastraBean.incluirCliente}"
+								process="@this">
+								<p:ajax event="dialogReturn"
+									listener="#{tabelaClienteCadastraBean.clienteSelecionado}"
+									update="inCliente" />
+							</p:commandButton>
+							<br />
+							<p:panelGrid styleClass="ui-panelgrid-blank">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Data início:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="Data final:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:calendar pattern="dd/MM/yyyy"
+											value="#{tabelaClienteCadastraBean.dataInicial}"
+											converter="#{dateConverter}" required="true"
+											requiredMessage="Data inicial deve ser informada" />
+									</p:column>
+									<p:column>
+										<p:calendar pattern="dd/MM/yyyy"
+											value="#{tabelaClienteCadastraBean.dataFinal}"
+											converter="#{dateConverter}" required="true"
+											requiredMessage="Data final deve ser informada" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:panel>
+								<p:dataTable emptyMessage="Nenhum material relacionado"
+									scrollable="true" scrollHeight="auto" id="clienteProdutosDT"
+									value="#{tabelaClienteCadastraBean.itens}" var="item"
+									editable="true" editMode="cell">
+
+									<p:column headerText="Código">
+										<h:outputLabel value="#{item.produto.codigo}" />
+									</p:column>
+
+									<p:column headerText="Descrição">
+										<h:outputLabel value="#{item.produto.descricao}" />
+									</p:column>
+
+									<p:column headerText="Vlr. original">
+										<h:outputLabel value="#{item.produto.valor}" />
+									</p:column>
+
+									<p:column headerText="Vlr. tabela">
+
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{item.valor}">
+													<f:convertNumber currencySymbol="R$" type="currency"
+														locale="pt_BR" />
+												</h:outputLabel>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{item.valor}">
+													<f:convertNumber pattern="#,##0.00" />
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
+
+									</p:column>
+
+									<p:column headerText="Ações">
+										<p:commandButton icon="ui-icon-trash" alt="Excluir registro"
+											action="#{tabelaClienteCadastraBean.eliminarItem}"
+											update="clienteProdutosDT">
+											<p:confirm header="Confirmação"
+												message="Tem certeza que deseja eliminar o material #{item.produto.descricao}?"
+												icon="pi pi-exclamation-triangle" />
+											<f:setPropertyActionListener value="#{item}"
+												target="#{tabelaClienteCadastraBean.clienteProduto}" />
+										</p:commandButton>
+									</p:column>
+								</p:dataTable>
+								<br />
+								<p:commandButton value="Incluir" icon="ui-icon-plus"
+									actionListener="#{tabelaClienteCadastraBean.buscarItem}"
+									update=":formClienteProdutoDialog, growl" />
+							</p:panel>
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+							</p:confirmDialog>
+							<br />
+							<p:commandButton value="Salvar"
+								actionListener="#{tabelaClienteCadastraBean.salvar}"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()"
+								update="growl,pnClienteProduto" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

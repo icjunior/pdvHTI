@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Visão geral de NCM
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formNCMGeral">
+						<p:growl id="growl" />
+						<p:panel id="pnNCMGeral">
+							<p:panelGrid id="pgNCMGeral" styleClass="ui-panelgrid-blank"
+								style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="NCM:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{ncmBean.codNcm}" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton id="btnBuscar" value="Buscar"
+								actionListener="#{ncmBean.buscar}" update="growl, ncmDT"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+							<br />
+							<br />
+							<p:dataTable id="ncmDT" value="#{ncmBean.ncms}" var="ncm"
+								emptyMessage="Nenhum registro encontrado"
+								selection="#{ncmBean.ncm}" rowKey="#{ncm.codigo}"
+								selectionMode="single">
+								<p:column headerText="NCM">
+									<h:outputLabel value="#{ncm.ncm}" />
+								</p:column>
+								<p:column headerText="Descrição">
+									<h:outputLabel value="#{ncm.descricao}" />
+								</p:column>
+								<p:column headerText="Data início">
+									<h:outputLabel value="#{ncm.dataInicio.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</p:column>
+								<p:column headerText="Data final">
+									<h:outputLabel value="#{ncm.dataFim.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</p:column>
+							</p:dataTable>
+							<br />
+							<p:commandButton value="Novo" action="#{ncmBean.novo}" />
+							<p:commandButton value="Editar" action="#{ncmBean.editar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

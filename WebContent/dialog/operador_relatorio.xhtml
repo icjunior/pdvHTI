@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="operadorRelatorio" modal="true" resizable="false"
+	header="Relatório de operador" closeOnEscape="true" width="60%">
+	<h:form id="formOperadorRelatorio">
+		<p:growl id="growl" />
+		<p:selectOneRadio id="tipoRelatorio"
+			value="#{relatorioOperadorBean.tipoRelatorio}" required="true"
+			requiredMessage="O tipo de relatório deve ser informado">
+			<f:selectItem itemLabel="Operador atual" itemValue="1" />
+			<f:selectItem itemLabel="Operador/período específico" itemValue="2" />
+		</p:selectOneRadio>
+		<br />
+		<p:outputLabel value="Data:" />
+		<br />
+		<p:calendar value="#{relatorioOperadorBean.data}"
+			converter="#{dateConverter}" pattern="dd/MM/yyyy" />
+		<br />
+		<p:outputLabel value="Operador:" />
+		<br />
+		<p:inputText value="#{relatorioOperadorBean.operador}" />
+		<br />
+		<br />
+		<p:commandButton value="Consultar"
+			actionListener="#{relatorioOperadorBean.pesquisar}"
+			update="growl, resumoOperadorDT"
+			oncomplete="PF('operadorRelatorioDataTable').show()" />
+	</h:form>
+</p:dialog>
+</html>

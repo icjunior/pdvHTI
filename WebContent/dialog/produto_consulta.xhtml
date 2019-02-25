@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="consultaProdutoDialog" modal="true"
+	closable="false" resizable="false" header="Consulta de produtos"
+	closeOnEscape="true">
+	<h:form>
+		<p:outputPanel>
+			<p:outputLabel value="Descrição" />
+			<br />
+			<p:inputText value="#{produtoBean.descricao}"
+				style="height:50px; width:50%; font-size: 50px" />
+			<br />
+			<br />
+			<p:commandButton value="Buscar"
+				actionListener="#{produtoBean.findByName}" update="produtosDT" />
+		</p:outputPanel>
+		<br />
+		<p:dataTable value="#{produtoBean.produtos}" var="produto"
+			id="produtosDT" emptyMessage="Nenhum produto encontrado.">
+
+			<p:column headerText="Código">
+				<h:outputLabel value="#{produto.codigo}" />
+			</p:column>
+
+			<p:column headerText="EAN">
+				<h:outputLabel value="#{produto.ean}" />
+			</p:column>
+
+			<p:column headerText="Descrição">
+				<h:outputLabel value="#{produto.descricao}" />
+			</p:column>
+
+			<p:column headerText="Venda">
+				<h:outputLabel value="#{produto.valor}">
+					<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+				</h:outputLabel>
+			</p:column>
+
+			<p:column headerText="Departamento">
+				<h:outputLabel value="#{produto.departamento.descricao}" />
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</p:dialog>
+</html>

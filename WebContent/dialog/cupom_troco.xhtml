@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="trocoDialog" modal="true" resizable="false"
+	header="Troco" closable="false">
+	<h:form id="formTroco">
+		<p:outputPanel id="pnTroco">
+			<p:inputText disabled="true" value="#{vendaBean.troco}" id="txtTroco"
+				style="width:600px; height: 90px; font-size: 70px">
+				<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+			</p:inputText>
+			<br />
+			<br />
+			<p:commandButton value="Continuar"
+				oncomplete="PF('trocoDialog').hide(), PF('cpfCnpjDialog').show()"
+				style="text-align:center" actionListener="#{vendaBean.limpar}"
+				update=":pnResumo,:pnItensRegistrados,:formCpfCnpj:pnCpfCnpj,:frmSubTotal:pgPagamentos" />
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

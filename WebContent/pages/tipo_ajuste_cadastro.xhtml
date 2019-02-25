@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de tipo de movimentação de estoque
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formTipoAjusteCadastro">
+						<p:growl id="growl" />
+						<p:panel id="pnTipoAjusteCadastro">
+							<p:panelGrid id="pgTipoAjusteCadastro"
+								styleClass="ui-panelgrid-blank" style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Código:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText
+											value="#{tipoAjusteCadastroBean.tipoAjuste.codigo}"
+											disabled="true" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Descrição:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText
+											value="#{tipoAjusteCadastroBean.tipoAjuste.descricao}"
+											style="width:60%" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Tipo de movimentação" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:selectOneMenu id="cstICMSList"
+											value="#{tipoAjusteCadastroBean.tipoAjuste.tipoMovimentacaoEstoque}"
+											style="width:125px">
+											<f:selectItem itemLabel="Selecione um"
+												noSelectionOption="true" itemDisabled="true" />
+											<f:selectItems
+												value="#{tipoAjusteCadastroBean.tiposMovimentacao}"
+												var="tipoMovimentacao" itemValue="#{tipoMovimentacao}"
+												itemLabel="#{tipoMovimentacao}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Gravar"
+								actionListener="#{tipoAjusteCadastroBean.gravar}"
+								update="growl, pgTipoAjusteCadastro" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

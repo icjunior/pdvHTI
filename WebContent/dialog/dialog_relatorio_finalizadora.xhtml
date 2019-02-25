@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="dialogRelatorioFinalizadora" modal="true"
+	resizable="false" header="Relação de cupons" closable="false"
+	closeOnEscape="true" width="50%">
+	<h:form id="formDialogRelatorioFinalizadora">
+		<p:dataTable var="cupom" emptyMessage="Nenhum cupom encontrado"
+			scrollable="true" scrollHeight="200"
+			value="#{relatorioFormaPagamentoBean.cupons}" id="cuponsDT">
+			<p:column headerText="Data">
+				<h:outputLabel value="#{cupom.data.time}">
+					<f:convertDateTime pattern="dd/MM/yyyy" />
+				</h:outputLabel>
+			</p:column>
+
+			<p:column headerText="PDV">
+				<h:outputLabel value="#{cupom.pdv}" />
+			</p:column>
+
+			<p:column headerText="Cupom">
+				<h:outputLabel value="#{cupom.cupom}" />
+			</p:column>
+
+			<p:column headerText="Valor cupom">
+				<h:outputLabel value="#{cupom.valorCupom}">
+					<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+				</h:outputLabel>
+			</p:column>
+
+			<p:column headerText="Valor finalizadora">
+				<h:outputLabel value="#{cupom.valorFormaPagamento}">
+					<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+				</h:outputLabel>
+			</p:column>
+		</p:dataTable>
+	</h:form>
+</p:dialog>
+</html>

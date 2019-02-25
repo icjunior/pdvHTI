@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="reforcoDialog" modal="true" resizable="false"
+	header="Reforço" closable="false" closeOnEscape="true">
+	<h:form id="formReforco">
+		<p:focus context="formReforco" />
+		<p:outputPanel id="pnReforco">
+			<h:outputText value="Indique o valor do reforço" />
+			<br />
+			<p:inputText value="#{reforcoBean.valor}"
+				style="width:600px; height: 90px; font-size: 70px" id="valor">
+				<f:convertNumber type="number" />
+			</p:inputText>
+		</p:outputPanel>
+		<br />
+		<p:commandButton value="Confirmar"
+			actionListener="#{reforcoBean.registrar}" update="valor">
+			<p:confirm header="Confirmação"
+				message="Deseja realmente lançar o reforço?"
+				icon="pi pi-exclamation-triangle" />
+		</p:commandButton>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+	</h:form>
+</p:dialog>
+</html>

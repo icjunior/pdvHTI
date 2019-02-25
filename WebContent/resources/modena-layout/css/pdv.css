@@ -1,0 +1,50 @@
+@charset "UTF-8";
+
+.container {
+	width: 100%;
+	clear: both;
+}
+
+.w_60 {
+	width: 60%;
+	float: left;
+	height: 500px;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.w_50 {
+	width: 50%;
+	float: left;
+	overflow: hidden;
+	overflow-y: auto;
+}
+
+.w_40 {
+	width: 40%;
+	float: left;
+	height: 500px;
+	overflow: hidden;
+	overflow-y: auto;
+	background: #F2F5A9;
+}
+
+.w_100 {
+	width: 100%;
+	clear: both;
+	height: 100px;
+}
+
+.w_40 div, .w_60 div, .w_100 div {
+	padding: 1%;
+}
+
+.input-lg {
+	height: 50px;
+	width: 60%;
+	font-size: 35px;
+}
+
+.ui-datatable-header {
+	background-color: none;
+}

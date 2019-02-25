@@ -1,0 +1,61 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pm="http://primefaces.org/modena">
+
+	<div class="Animated05" id="layout-menu-cover">
+		<h:form id="menuform">
+			<pm:menu>
+				<p:submenu label="Cadastros">
+
+					<p:submenu label="Clientes">
+						<p:menuitem outcome="/pages/cliente_cadastro" value="Novo" />
+						<p:menuitem outcome="/pages/cliente_geral" value="Manutenção" />
+						<p:menuitem outcome="/pages/cliente_produto"
+							value="Tabela de preços por cliente" />
+					</p:submenu>
+
+					<p:submenu label="Produtos">
+						<p:menuitem outcome="/pages/produto_cadastro" value="Novo" />
+						<p:menuitem outcome="/pages/produto_geral" value="Manutenção" />
+						<p:menuitem outcome="/pages/departamento_cadastro"
+							value="Departamento" />
+
+					</p:submenu>
+					<p:submenu label="Movimentação de estoque">
+						<p:menuitem outcome="/pages/tipo_ajuste_geral" value="Manutenção" />
+					</p:submenu>
+					<p:submenu label="Fiscal">
+						<p:menuitem outcome="/pages/aliquota_geral" value="ICMS" />
+						<p:menuitem outcome="/pages/cest_geral" value="CEST" />
+						<p:menuitem outcome="/pages/ncm_geral" value="NCM" />
+					</p:submenu>
+				</p:submenu>
+				<p:submenu label="Estoque">
+					<p:menuitem outcome="/pages/produto_estoque"
+						value="Ajustes de estoque" />
+				</p:submenu>
+				<p:submenu label="Preços">
+					<p:menuitem outcome="/pages/produto_venda" value="Preços" />
+				</p:submenu>
+				<p:submenu label="Pedidos">
+					<p:menuitem outcome="/pages/pedido" value="Consulta" />
+					<p:menuitem outcome="/pages/pedido_cadastra" value="Novo" />
+				</p:submenu>
+				<p:submenu label="Relatórios">
+					<p:menuitem outcome="/pages/relatorio_cupom" value="Cupons" />
+					<p:menuitem outcome="/pages/relatorio_item" value="Itens" />
+					<p:menuitem outcome="/pages/relatorio_finalizadora"
+						value="Finalizadoras" />
+					<p:menuitem outcome="/pages/relatorio_produto_estoque"
+						value="Ajuste de produtos" />
+				</p:submenu>
+
+			</pm:menu>
+		</h:form>
+
+	</div>
+
+</ui:composition>

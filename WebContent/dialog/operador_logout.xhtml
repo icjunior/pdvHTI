@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="operadorLogout" modal="true"
+	header="Saída de operador" resizable="false" closeOnEscape="true"
+	closable="false">
+	<h:form>
+		<p:outputPanel>
+			<p:outputLabel
+				value="Tem certeza que deseja retirar o usuário logado?" />
+			<br />
+			<br />
+			<p:commandButton value="Sim" actionListener="#{usuarioBean.logout}"
+				style="width:200px" oncomplete="PF('operadorLogout').hide()"
+				update=":operador,resumoOperadorDT, :pnStatusPDV" />
+			<p:commandButton value="Não" oncomplete="PF('operadorLogout').hide()"
+				style="width:200px" />
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

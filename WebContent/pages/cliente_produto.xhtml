@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Tabela de clientes e produtos
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formClienteProduto">
+						<p:growl id="growl" />
+						<p:panel id="pnClienteProduto">
+							<h:outputLabel value="Cliente:" />
+							<br />
+							<p:inputText disabled="true" style="width:50%" id="inCliente"
+								value="#{tabelaClienteBean.cliente.nome}" />
+							<p:spacer width="10" />
+							<p:commandButton icon="ui-icon-search"
+								actionListener="#{tabelaClienteBean.incluirCliente}">
+								<p:ajax event="dialogReturn"
+									listener="#{tabelaClienteBean.clienteSelecionado}"
+									update="inCliente" />
+							</p:commandButton>
+							<br />
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="#{tabelaClienteBean.busca}"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()"
+								update="growl,pnTabelas" />
+						</p:panel>
+						<br />
+						<p:panel id="pnTabelas">
+							<p:dataTable emptyMessage="Nenhuma tabela encontrada"
+								scrollable="true" scrollHeight="200"
+								value="#{tabelaClienteBean.tabelas}" var="tabela" id="tabelasDT"
+								selection="#{tabelaClienteBean.tabelaCliente}"
+								selectionMode="single" rowKey="#{tabela.codigo}">
+
+								<p:ajax event="rowSelect"
+									update=":formClienteProduto:btnVisualizarTabela" />
+
+								<p:column headerText="Código">
+									<h:outputLabel value="#{tabela.codigo}" />
+								</p:column>
+
+								<p:column headerText="Cliente">
+									<h:outputLabel value="#{tabela.cliente.nome}" />
+								</p:column>
+
+								<p:column headerText="Início">
+									<h:outputLabel value="#{tabela.dataInicial.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</p:column>
+
+								<p:column headerText="Fim">
+									<h:outputLabel value="#{tabela.dataFinal.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</p:column>
+
+								<p:column headerText="Ações">
+									<p:commandButton title="Excluir tabela"
+										action="#{tabelaClienteBean.excluir}" id="btnExcluirTabela"
+										update="tabelasDT" icon="ui-icon-trash">
+										<p:confirm header="Confirmação"
+											message="Tem certeza que deseja eliminar a tabela #{tabela.codigo}?"
+											icon="pi pi-exclamation-triangle" />
+										<f:setPropertyActionListener value="#{tabela}"
+											target="#{tabelaClienteBean.tabelaCliente}" />
+									</p:commandButton>
+								</p:column>
+							</p:dataTable>
+
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+							</p:confirmDialog>
+
+							<p:commandButton value="Visualizar" id="btnVisualizarTabela"
+								action="#{tabelaClienteBean.visualizar}"
+								disabled="#{tabelaClienteBean.tabelaCliente.codigo == 0}" />
+						</p:panel>
+						<br />
+						<p:commandButton value="Nova tabela"
+							action="#{tabelaClienteBean.novo}" id="btnNovaTabela" />
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="cpfCnpjDialog" modal="true" resizable="false"
+	header="Nota fiscal paulista" closable="false">
+	<h:form id="formCpfCnpj">
+		<p:focus context="formCpfCnpj" />
+		<p:outputPanel id="pnCpfCnpj">
+			<p:inputText value="#{vendaBean.cpfCnpj}" id="txtCpfCnpj"
+				style="width:600px; height: 90px; font-size: 70px" />
+			<br />
+			<br />
+			<p:commandButton value="Confirmar"
+				onclick="PF('cpfCnpjDialog').hide()"
+				actionListener="#{vendaBean.consultaCliente}"
+				update=":pnItensRegistrados">
+				<p:ajax event="dialogReturn"
+					listener="#{vendaBean.clienteSelecionado}"
+					update=":pnItensRegistrados" />
+			</p:commandButton>
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

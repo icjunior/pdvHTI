@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="operadorLogin" modal="true"
+	header="Entrada de operador" resizable="false" closable="false">
+	<h:form id="formOperador">
+		<p:focus context="formOperador" />
+		<p:growl id="growl" />
+		<p:outputPanel>
+			<p:outputLabel value="Usuário" />
+			<br />
+			<p:inputText value="#{usuarioBean.usuario}"
+				style="height:50px; width:50%; font-size: 50px" required="true"
+				requiredMessage="Campo usuário é obrigatório" />
+			<br />
+			<p:outputLabel value="Senha" />
+			<br />
+			<p:password value="#{usuarioBean.senha}"
+				style="height:50px; width:50%; font-size: 50px" required="true"
+				requiredMessage="Campo senha é obrigatório" />
+		</p:outputPanel>
+		<br />
+		<p:commandButton value="Continuar"
+			onclick="PF('fundoOperador').show()" update="growl" />
+	</h:form>
+</p:dialog>
+
+<p:dialog widgetVar="fundoOperador" modal="true" closable="true"
+	resizable="false" header="Fundo de troco">
+	<h:form id="formFundoTroco">
+		<p:growl id="growl" />
+		<p:outputPanel id="pnFundoTroco">
+			<p:inputText value="#{usuarioBean.fundo}"
+				style="width:600px; height: 90px; font-size: 70px">
+				<f:convertNumber type="number" />
+			</p:inputText>
+			<br />
+			<br />
+			<p:commandButton value="Logar" actionListener="#{usuarioBean.logar}"
+				update="growl, :operador, :pnStatusPDV"
+				oncomplete="PF('fundoOperador').hide(), PF('operadorLogin').hide()" />
+		</p:outputPanel>
+	</h:form>
+</p:dialog>
+</html>

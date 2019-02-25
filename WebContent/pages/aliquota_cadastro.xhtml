@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de alíquota ICMS
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formAliquotaCadastro">
+						<p:growl id="growl" />
+						<p:panel id="pnAliquotaCadastro">
+							<p:panelGrid id="pgAliquotaCadastro"
+								styleClass="ui-panelgrid-blank" style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Código:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{aliquotaCadastroBean.aliquota.codigo}"
+											disabled="true" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Alíquota:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{aliquotaCadastroBean.aliquota.aliquota}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Redução:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{aliquotaCadastroBean.aliquota.reducao}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="CST" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:selectOneMenu id="cstICMSList"
+											value="#{aliquotaCadastroBean.aliquota.cst}"
+											style="width:125px" converter="#{cstConverter}">
+											<f:selectItem itemLabel="Selecione um"
+												noSelectionOption="true" itemDisabled="true" />
+											<f:selectItems value="#{aliquotaCadastroBean.CSTICMS}"
+												var="cst" itemValue="#{cst}" itemLabel="#{cst}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<br />
+							<p:commandButton value="Gravar"
+								actionListener="#{aliquotaCadastroBean.gravar}"
+								update="growl, pgAliquotaCadastro" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

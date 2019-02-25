@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Manutenção de CEST
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/progressbar.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formCestGeral">
+						<p:growl id="growl" />
+						<p:panel id="pnCestGeral">
+							<p:panelGrid id="pgCestGeral" styleClass="ui-panelgrid-blank"
+								style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="CEST:" />
+									</p:column>
+									<p:column>
+										<h:outputLabel value="Descrição:" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<p:inputText value="#{cestBean.cestDTO.cest}" />
+									</p:column>
+									<p:column>
+										<p:inputText value="#{cestBean.cestDTO.descricao}"
+											style="width:60%" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="#{cestBean.buscar}" update="growl, cestDT"
+								onclick="PF('progressBarDialog').show()"
+								oncomplete="PF('progressBarDialog').hide()" />
+							<br />
+							<br />
+							<p:dataTable id="cestDT" value="#{cestBean.cests}" var="cest"
+								emptyMessage="Nenhum registro encontrado"
+								selection="#{cestBean.cest}" rowKey="#{cest.codigo}"
+								selectionMode="single">
+								<p:column headerText="Código">
+									<h:outputLabel value="#{cest.codigo}" />
+								</p:column>
+								<p:column headerText="CEST">
+									<h:outputLabel value="#{cest.cest}" />
+								</p:column>
+								<p:column headerText="Descrição">
+									<h:outputLabel value="#{cest.descricao}" />
+								</p:column>
+							</p:dataTable>
+							<br />
+							<br />
+							<p:commandButton value="Novo" action="#{cestBean.novo}" />
+							<p:commandButton value="Editar" action="#{cestBean.editar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

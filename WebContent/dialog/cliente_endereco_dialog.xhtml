@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="clienteEnderecoDialog" modal="true"
+	resizable="false" header="Inclusão de endereços (cliente)"
+	closable="true" width="60%" closeOnEscape="true">
+	<h:form id="formClienteEnderecoDialog">
+		<p:growl id="growlClienteEndereco" />
+		<p:focus context="formClienteEnderecoDialog" />
+		<p:panel id="pnClienteEndereco">
+			<p:panelGrid id="pgClienteEndereco" styleClass="ui-panelgrid-blank"
+				style="width:100%">
+				<p:row>
+					<p:column style="width:80%">
+						<h:outputLabel value="Endereço:" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.nome}" required="true"
+							requiredMessage="Endereço deve ser preenchido" style="width:80%" />
+					</p:column>
+
+					<p:column>
+						<h:outputLabel value="Número:" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.numero}"
+							required="true" requiredMessage="Número deve ser preenchido" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="2">
+						<h:outputLabel value="Complemento" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.complemento}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%">
+				<p:row>
+					<p:column style="width:40%">
+						<h:outputLabel value="CEP:" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.cep}" required="true"
+							requiredMessage="CEP deve ser preenchido" />
+					</p:column>
+
+					<p:column>
+						<h:outputLabel value="Bairro:" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.bairro}"
+							required="true" requiredMessage="Bairro deve ser preenchido"
+							style="width:80%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column style="width:50%">
+						<h:outputLabel value="Cidade:" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.cidade}"
+							required="true" requiredMessage="Cidade deve ser preenchida"
+							style="width:80%" />
+					</p:column>
+
+					<p:column>
+						<h:outputLabel value="Estado:" />
+						<br />
+						<p:inputText value="#{clienteCadastroBean.endereco.estado}"
+							required="true" requiredMessage="Estado deve ser preenchido"
+							style="width:80%" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Incluir" id="btnIncluirEnderecoCliente"
+				update="growlClienteEndereco, :formCadastroCliente:enderecosDT"
+				actionListener="#{clienteCadastroBean.incluirEndereco}"
+				oncomplete="PF('clienteEnderecoDialog').hide()" />
+		</p:panel>
+	</h:form>
+</p:dialog>
+</html>

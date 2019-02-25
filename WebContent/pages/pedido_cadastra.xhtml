@@ -1,0 +1,133 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Novo Pedido
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form>
+						<p:outputPanel id="outNovoPedido">
+							<p:panel id="pnNovoPedido" style="border:none">
+								<p:outputLabel value="Cliente" />
+								<br />
+								<p:inputText id="inCliente" value="#{pedidoBean.cliente.nome}"
+									disabled="true" style="width:50%" />
+								<p:spacer width="10" />
+								<p:commandButton icon="ui-icon-search" id="btnPesquisarCliente"
+									actionListener="#{pedidoBean.incluirCliente}">
+									<p:ajax event="dialogReturn"
+										listener="#{pedidoBean.clienteSelecionado}" update="inCliente" />
+								</p:commandButton>
+
+								<br />
+								<br />
+
+								<p:dataTable value="#{pedidoBean.itens}" var="item"
+									scrollable="true" scrollHeight="200"
+									emptyMessage="Nenhum item incluído" id="itensDT"
+									editable="true" editMode="cell">
+
+									<p:column headerText="Código" priority="6">
+										<h:outputLabel value="#{item.produto.codigo}" />
+									</p:column>
+
+									<p:column headerText="EAN" priority="5">
+										<h:outputLabel value="#{item.produto.ean}" />
+									</p:column>
+
+									<p:column headerText="Descrição" priority="1">
+										<h:outputLabel value="#{item.produto.descricao}" />
+									</p:column>
+
+									<p:column headerText="Quantidade" priority="2">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{item.quantidade}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{item.quantidade}" label="Quantidade">
+													<p:ajax event="blur" update="itensDT" />
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Valor" priority="3">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{item.valor}">
+													<f:convertNumber currencySymbol="R$" type="currency"
+														locale="pt_BR" />
+												</h:outputLabel>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{item.valor}" label="Valor">
+													<p:ajax event="blur" update="itensDT" />
+													<f:convertNumber pattern="#,##0.00" />
+												</p:inputText>
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Opções" priority="4">
+										<p:commandButton icon="ui-icon-trash" id="btnExcluirItem"
+											action="#{pedidoBean.eliminarItem}" update="itensDT">
+											<p:confirm header="Confirmação"
+												message="Tem certeza que deseja eliminar o material #{item.produto.descricao}?"
+												icon="pi pi-exclamation-triangle" />
+											<f:setPropertyActionListener value="#{item}"
+												target="#{pedidoBean.item}" />
+										</p:commandButton>
+									</p:column>
+									<f:facet name="footer">
+									Total:
+										<h:outputLabel value="#{pedidoBean.subTotal}">
+											<f:convertNumber currencySymbol="R$" type="currency"
+												locale="pt_BR" />
+										</h:outputLabel>
+									</f:facet>
+								</p:dataTable>
+								<br />
+								<br />
+								<p:commandButton value="Incluir item" update="itensDT"
+									actionListener="#{pedidoBean.incluirItem}">
+									<p:ajax event="dialogReturn"
+										listener="#{pedidoBean.produtoSelecionado}" update="itensDT" />
+								</p:commandButton>
+								<p:commandButton value="Finalizar"
+									actionListener="#{pedidoBean.finalizar}"
+									id="btnFinalizarPedido" update="outNovoPedido">
+									<p:confirm header="Confirmação"
+										message="Tem certeza que deseja finalizar o pedido?"
+										icon="pi pi-exclamation-triangle" />
+								</p:commandButton>
+								<p:commandButton value="Voltar" action="#{pedidoBean.inicio}">
+									<p:confirm header="Confirmação"
+										message="Tem certeza que deseja retornar ao início? Todos os itens incluídos no pedido atual serão perdidos."
+										icon="pi pi-exclamation-triangle" />
+								</p:commandButton>
+
+								<p:confirmDialog global="true" showEffect="fade"
+									hideEffect="fade">
+									<p:commandButton value="Sim" type="button"
+										styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+									<p:commandButton value="Não" type="button"
+										styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+								</p:confirmDialog>
+							</p:panel>
+						</p:outputPanel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

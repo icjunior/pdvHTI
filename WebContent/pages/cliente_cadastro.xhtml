@@ -1,0 +1,174 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de clientes
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/cliente_endereco_dialog.xhtml"></ui:include>
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formCadastroCliente">
+						<p:growl id="growl" showDetail="true" />
+						<p:focus context="formCadastroCliente" />
+						<p:panel id="pnCadastroCliente" style="width:100%">
+							<p:fieldset legend="Dados mestres" toggleable="true">
+								<p:panelGrid id="pgCadastroCliente"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Código:" for="inCodigo" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.codigo}"
+												disabled="true" id="inCodigo" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column style="width:40%">
+											<h:outputLabel value="Nome:" for="inNome" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.nome}" id="inNome"
+												required="true" requiredMessage="Nome deve ser informado"
+												style="width:80%" />
+										</p:column>
+										<p:column style="width:40%">
+											<h:outputLabel value="Apelido:" for="inApelido" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.apelido}"
+												id="inApelido" required="true"
+												requiredMessage="Apelido deve ser informado"
+												style="width:80%" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="CNPJ/CPF:" for="inCNPJ" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.cpfCnpj}"
+												id="inCNPJ" required="true"
+												requiredMessage="CNPJ/CPF deve ser informado"
+												style="width:50%">
+												<f:validator validatorId="cpfcnpjValidator" />
+											</p:inputText>
+										</p:column>
+
+										<p:column>
+											<h:outputLabel value="IE/RG:" for="inIE" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.rgIe}" id="inIE"
+												required="true" requiredMessage="IE/RG deve ser informado"
+												style="width:50%" />
+										</p:column>
+
+										<p:column>
+											<h:outputLabel value="I.M.:" for="inIM" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.im}" id="inIM"
+												style="width:90%" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:fieldset legend="Contatos" toggleable="true">
+								<p:panelGrid id="pgCadastroClienteContato"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+
+									<p:row>
+										<p:column style="width:40%">
+											<h:outputLabel value="Telefone:" for="inTelefone" />
+											<br />
+											<p:inputMask value="#{clienteCadastroBean.cliente.telefone}"
+												id="inTelefone" required="true"
+												requiredMessage="Telefone deve ser informado"
+												mask="(99) 9999-9999" style="width:50%" />
+										</p:column>
+
+										<p:column style="width:40%">
+											<h:outputLabel value="Celular:" for="inCelular" />
+											<br />
+											<p:inputMask mask="(99) 99999-9999"
+												value="#{clienteCadastroBean.cliente.celular}" id="inCelular"
+												style="width: 50%" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column style="width:40%">
+											<h:outputLabel value="Email:" for="inEmail" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.email}"
+												id="inEmail" required="true"
+												requiredMessage="Email de cobrança deve ser informado"
+												style="width:80%" />
+										</p:column>
+
+										<p:column style="width:40%">
+											<h:outputLabel value="Email NFe:" for="inEmailNfe" />
+											<br />
+											<p:inputText value="#{clienteCadastroBean.cliente.emailNfe}"
+												id="inEmailNfe" required="true"
+												requiredMessage="Email para NFE deve ser informado"
+												style="width:80%" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:fieldset>
+							<br />
+							<p:fieldset legend="Endereços" toggleable="true">
+								<p:panel id="pnEnderecoCliente" styleClass="ui-panelgrid-blank"
+									style="border:none">
+									<p:dataTable value="#{clienteCadastroBean.enderecos}" var="endereco"
+										id="enderecosDT" scrollable="true" scrollHeight="150"
+										emptyMessage="Nenhum endereço cadastrado">
+
+										<p:column headerText="CEP">
+											<p:outputLabel value="#{endereco.cep}" />
+										</p:column>
+
+										<p:column headerText="Nome">
+											<p:outputLabel value="#{endereco.nome}" />
+										</p:column>
+
+										<p:column headerText="Número">
+											<p:outputLabel value="#{endereco.numero}" />
+										</p:column>
+
+										<p:column headerText="Bairro">
+											<p:outputLabel value="#{endereco.bairro}" />
+										</p:column>
+
+										<p:column headerText="Cidade">
+											<p:outputLabel value="#{endereco.cidade}" />
+										</p:column>
+
+										<p:column headerText="Estado">
+											<p:outputLabel value="#{endereco.estado}" />
+										</p:column>
+
+										<p:column headerText="Opções">
+											<p:commandButton icon="ui-icon-trash"
+												action="#{clienteCadastroBean.excluirEndereco}" />
+										</p:column>
+									</p:dataTable>
+									<p:commandButton value="Incluir" icon="ui-icon-plus"
+										onclick="PF('clienteEnderecoDialog').show()" process="@this" />
+								</p:panel>
+							</p:fieldset>
+							<br />
+							<p:commandButton value="Salvar" update="growl, pnCadastroCliente"
+								actionListener="#{clienteCadastroBean.gravar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

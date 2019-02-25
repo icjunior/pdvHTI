@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Cadastro de CEST
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formCestCadastro">
+						<p:growl id="growl" />
+						<p:panel id="pnCestCadastro">
+							<p:panelGrid id="pgCestCadastro" styleClass="ui-panelgrid-blank"
+								style="width:100%">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Código:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{cestCadastroBean.cest.codigo}"
+											disabled="true" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="CEST:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputText value="#{cestCadastroBean.cest.cest}" />
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Descrição:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:inputTextarea value="#{cestCadastroBean.cest.descricao}"
+											rows="5" cols="80" />
+									</p:column>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Gravar"
+								actionListener="#{cestCadastroBean.gravar}"
+								update="growl, pgCestCadastro" id="btnGravar" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

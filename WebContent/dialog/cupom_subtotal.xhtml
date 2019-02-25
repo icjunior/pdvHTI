@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="subTotal" modal="true" closeOnEscape="true"
+	resizable="false" width="100%" height="85vh" closable="false"
+	draggable="false">
+
+	<div class="w_50" style="height: 100%">
+
+		<h:form id="frmSubTotal">
+			<p:growl id="growl" />
+			<p:panelGrid columns="2"
+				style="border:0px !important;background:none"
+				styleClass="ui-panelgrid-blank" id="pgPagamentos">
+
+				<h:outputLabel value="Forma de pagamento" />
+				<p:selectOneMenu id="formaPagamentoList"
+					value="#{vendaBean.cupomPagamento.formaPagamento}"
+					style="width:125px" converter="#{formaPagamentoConverter}"
+					required="true"
+					requiredMessage="Forma de Pagamento deve ser selecionada">
+					<f:selectItem itemLabel="Selecione um" noSelectionOption="true" />
+					<f:selectItems value="#{vendaBean.finalizadora}" var="pagamento"
+						itemLabel="#{pagamento}" itemValue="#{pagamento}" />
+				</p:selectOneMenu>
+
+				<h:outputLabel value="Valor recebido"></h:outputLabel>
+				<p:inputNumber id="valorPagamento" symbol="R$ " decimalPlaces="2"
+					decimalSeparator="," thousandSeparator="."
+					value="#{vendaBean.cupomPagamento.valor}">
+					<f:converter converterId="javax.faces.BigDecimal" />
+					<p:ajax event="blur" listener="#{vendaBean.incluirPagamento}"
+						update=":formPagamentos:pagamentosDT, growl, btnFinalizar, pgPagamentos, :pnSubTotal"
+						process="@form" />
+				</p:inputNumber>
+			</p:panelGrid>
+			<br />
+			<p:commandButton value="Finalizar venda"
+				actionListener="#{vendaBean.registrar}" update=":formTroco:pnTroco"
+				disabled="#{vendaBean.pagamentos == null}" id="btnFinalizar"
+				onclick="PF('progressBarDialog').show()"
+				oncomplete="PF('progressBarDialog').hide()" process="@this" />
+		</h:form>
+		<br /> <br />
+		<p:outputPanel id="pnSubTotal" style="text-align:left;">
+			<p:outputLabel value="Valor à pagar:" />
+			<br />
+			<p:inputText disabled="true" value="#{vendaBean.subTotal}"
+				style="width:60%; height: 90px; font-size: 70px" id="subTotal">
+				<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+			</p:inputText>
+			<br />
+			<br />
+			<p:outputLabel value="Valor pago:" />
+			<br />
+			<p:inputText disabled="true" value="#{vendaBean.totalPago}"
+				style="width:60%; height: 90px; font-size: 70px" id="totalPago">
+				<f:convertNumber currencySymbol="R$" type="currency" locale="pt_BR" />
+			</p:inputText>
+		</p:outputPanel>
+	</div>
+	<div class="w_50" style="height: 100%">
+		<h:form id="formPagamentos">
+			<p:dataTable value="#{vendaBean.pagamentos}" var="pagamento"
+				id="pagamentosDT" emptyMessage="Nenhum pagamento efetuado">
+
+				<p:column headerText="Finalizadora">
+					<h:outputLabel value="#{pagamento.formaPagamento.nome}" />
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputLabel value="#{pagamento.valor}">
+						<f:convertNumber currencySymbol="R$" type="currency"
+							locale="pt_BR" />
+					</h:outputLabel>
+				</p:column>
+				<p:column>
+					<p:commandButton icon="ui-icon-trash"
+						action="#{vendaBean.removePagamento}"
+						update="pagamentosDT, :pnSubTotal" process="@this">
+						<f:setPropertyActionListener value="#{pagamento}"
+							target="#{vendaBean.pagamentoSelecionado}" />
+						<p:confirm header="Exclusão de finalizadora"
+							message="Tem certeza que deseja excluir?"
+							icon="pi pi-exclamation-triangle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+			</p:confirmDialog>
+		</h:form>
+	</div>
+</p:dialog>
+</html>
