@@ -15,6 +15,7 @@
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect TexAlLeft">
 					<h:form id="formEntradaNota">
+						<p:growl id="growl" />
 						<p:focus context="formEntradaNota" />
 						<p:panel id="pnEntradaNota">
 							<p:fieldset legend="Cabeçalho" toggleable="true">
@@ -22,18 +23,37 @@
 									styleClass="ui-panelgrid-blank" style="width:100%">
 									<p:row>
 										<p:column>
-											<h:outputLabel value="Código:" />
+											<h:outputLabel value="Tipo de nota:" />
 										</p:column>
 										<p:column>
-											<h:outputLabel value="Fornecedor:" />
+											<p:outputLabel value="Fornecedor" />
 										</p:column>
 									</p:row>
 									<p:row>
 										<p:column>
-											<p:inputText />
+											<p:selectOneMenu id="tipoNotaList" style="width:125px"
+												required="true"
+												requiredMessage="Tipo de nota deve ser selecionado">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItems
+													value="#{lancamentoNotaEntradaBean.tiposNota}" var="tipo"
+													itemValue="#{tipo}" itemLabel="#{tipo}" />
+											</p:selectOneMenu>
 										</p:column>
-										<p:column colspan="2">
-											<p:inputText style="width:80%" />
+										<p:column>
+											<p:inputText id="inCliente"
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.cliente.nome}"
+												disabled="true" style="width:50%" />
+											<p:spacer width="10" />
+											<p:commandButton icon="ui-icon-search"
+												id="btnPesquisarFornecedor"
+												actionListener="#{lancamentoNotaEntradaBean.incluirCliente}"
+												process="@this">
+												<p:ajax event="dialogReturn"
+													listener="#{lancamentoNotaEntradaBean.clienteSelecionado}"
+													update="inCliente" />
+											</p:commandButton>
 										</p:column>
 									</p:row>
 									<p:row>
@@ -55,20 +75,27 @@
 									</p:row>
 									<p:row>
 										<p:column>
-											<p:inputText />
+											<p:inputText
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.numero}" />
 										</p:column>
 										<p:column>
-											<p:inputText />
+											<p:inputText
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.serie}" />
 										</p:column>
 										<p:column>
 											<p:inputNumber decimalPlaces="2" decimalSeparator=","
-												symbol="R$ " />
+												symbol="R$ "
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.valor}" />
 										</p:column>
 										<p:column>
-											<p:inputMask mask="99/99/9999" />
+											<p:inputMask mask="99/99/9999"
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.emissao}"
+												converter="#{dateConverter}" />
 										</p:column>
 										<p:column>
-											<p:inputMask mask="99/99/9999" />
+											<p:inputMask mask="99/99/9999"
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.lancamento}"
+												converter="#{dateConverter}" />
 										</p:column>
 									</p:row>
 								</p:panelGrid>
@@ -84,27 +111,44 @@
 									</p:row>
 									<p:row>
 										<p:column>
-											<p:inputText />
-											<p:commandButton icon="ui-icon-search" />
-											<br />
-											<br />
-											<p:commandButton value="Incluir material" />
+											<p:inputText readonly="true" style="width:50%" id="inItem"
+												value="#{produtoEstoqueBean.produtoAjuste.produto.descricao}" />
+											<p:spacer width="10" />
+											<p:commandButton icon="ui-icon-search"
+												alt="Pesquisa de material"
+												actionListener="#{lancamentoNotaEntradaBean.incluirItem}"
+												process="@this">
+												<p:ajax event="dialogReturn"
+													listener="#{lancamentoNotaEntradaBean.produtoSelecionado}"
+													update="inItem, itensDT" />
+											</p:commandButton>
 										</p:column>
 									</p:row>
 								</p:panelGrid>
 								<br />
-								<p:dataTable>
+								<p:dataTable id="itensDT"
+									value="#{lancamentoNotaEntradaBean.itens}" var="item"
+									emptyMessage="Nenhum item lançado" scrollable="true"
+									scrollHeight="250">
+
 									<p:column headerText="EAN">
+										<h:outputLabel value="#{item.produto.ean}" />
 									</p:column>
+
 									<p:column headerText="Descrição">
+										<h:outputLabel value="#{item.produto.descricao}" />
 									</p:column>
+
 									<p:column headerText="Embalagem">
+										<h:outputLabel value="#{item.embalagem}" />
 									</p:column>
+
 									<p:column headerText="Qtd.">
+										<h:outputLabel value="#{item.quantidade}" />
 									</p:column>
+
 									<p:column headerText="Valor">
-									</p:column>
-									<p:column headerText="Ações">
+										<h:outputLabel value="#{item.valor}" />
 									</p:column>
 								</p:dataTable>
 								<br />
@@ -144,7 +188,9 @@
 							</p:fieldset>
 							<br />
 							<br />
-							<p:commandButton value="Finalizar nota" />
+							<p:commandButton value="Finalizar nota"
+								actionListener="#{lancamentoNotaEntradaBean.gravar}"
+								update="growl,pnEntradaNota" />
 						</p:panel>
 					</h:form>
 				</div>
