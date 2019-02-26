@@ -29,7 +29,6 @@ public class AliquotaBean implements Serializable {
 	}
 
 	public String novo() {
-		System.out.println("Teste");
 		return "/pages/aliquota_cadastro?faces-redirect=true";
 	}
 
