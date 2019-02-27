@@ -25,6 +25,7 @@
 		<class>br.com.htisoftware.pdv.modelo.NCM</class>
 		<class>br.com.htisoftware.pdv.modelo.NotaCabecalho</class>
 		<class>br.com.htisoftware.pdv.modelo.NotaItem</class>
+		<class>br.com.htisoftware.pdv.modelo.CFOP</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
@@ -63,6 +64,9 @@
 		<class>br.com.htisoftware.pdv.modelo.TabelaCliente</class>
 		<class>br.com.htisoftware.pdv.modelo.ClienteProduto</class>
 		<class>br.com.htisoftware.pdv.modelo.NCM</class>
+		<class>br.com.htisoftware.pdv.modelo.NotaCabecalho</class>
+		<class>br.com.htisoftware.pdv.modelo.NotaItem</class>
+		<class>br.com.htisoftware.pdv.modelo.CFOP</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver"
@@ -101,6 +105,9 @@
 		<class>br.com.htisoftware.pdv.modelo.TabelaCliente</class>
 		<class>br.com.htisoftware.pdv.modelo.ClienteProduto</class>
 		<class>br.com.htisoftware.pdv.modelo.NCM</class>
+		<class>br.com.htisoftware.pdv.modelo.NotaCabecalho</class>
+		<class>br.com.htisoftware.pdv.modelo.NotaItem</class>
+		<class>br.com.htisoftware.pdv.modelo.CFOP</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver"

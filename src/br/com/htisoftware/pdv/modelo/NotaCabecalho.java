@@ -45,6 +45,14 @@ public class NotaCabecalho implements Serializable {
 		itens.remove(item);
 	}
 
+	public BigDecimal getTotalItens() {
+		if (itens != null) {
+			return itens.stream().filter(item -> item.getValor() != null).map(item -> item.getValor())
+					.reduce(BigDecimal.ZERO, BigDecimal::add);
+		}
+		return BigDecimal.ZERO;
+	}
+
 	public Cliente getCliente() {
 		return cliente;
 	}
