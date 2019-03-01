@@ -34,7 +34,7 @@ public class NotaCabecalho implements Serializable {
 	@OneToMany(mappedBy = "notaCabecalho")
 	List<NotaItem> itens;
 	@OneToMany(mappedBy = "notaCabecalho")
-	List<NotaFinanceiro> financeiros;
+	List<Financeiro> financeiros;
 
 	public void adicionaItem(NotaItem item) {
 		if (itens == null) {
@@ -184,5 +184,32 @@ public class NotaCabecalho implements Serializable {
 		} else if (!valor.equals(other.valor))
 			return false;
 		return true;
+	}
+
+	public void adicionaFinanceiro() {
+		if (financeiros == null) {
+			financeiros = new ArrayList<>();
+		}
+		financeiros.add(new Financeiro());
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public List<Financeiro> getFinanceiros() {
+		return financeiros;
+	}
+
+	public void setFinanceiros(List<Financeiro> financeiros) {
+		this.financeiros = financeiros;
+	}
+
+	public void excluiFinanceiro(Financeiro financeiro) {
+		financeiros.remove(financeiro);
 	}
 }

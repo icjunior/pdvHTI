@@ -16,6 +16,7 @@ import br.com.htisoftware.pdv.enums.TipoNota;
 import br.com.htisoftware.pdv.modelo.CFOP;
 import br.com.htisoftware.pdv.modelo.Cliente;
 import br.com.htisoftware.pdv.modelo.NotaCabecalho;
+import br.com.htisoftware.pdv.modelo.Financeiro;
 import br.com.htisoftware.pdv.modelo.NotaItem;
 import br.com.htisoftware.pdv.modelo.Produto;
 import br.com.htisoftware.pdv.service.CfopService;
@@ -65,6 +66,14 @@ public class LancamentoNotaEntradaBean implements Serializable {
 	public void clienteSelecionado(SelectEvent event) {
 		Cliente cliente = (Cliente) event.getObject();
 		notaCabecalho.setCliente(cliente);
+	}
+
+	public void adicionaFinanceiro() {
+		notaCabecalho.adicionaFinanceiro();
+	}
+
+	public void excluiFinanceiro(Financeiro financeiro) {
+		notaCabecalho.excluiFinanceiro(financeiro);
 	}
 
 	public void gravar() {

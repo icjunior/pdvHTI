@@ -1,0 +1,101 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+        Page Header
+    </ui:define>
+
+	<ui:define name="content">
+
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<h:form id="formFinanceiroGeral">
+						<p:panel id="pnFinanceiroGeral">
+							<p:panelGrid id="pgFinanceiroGeral">
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Tipo movim.:" />
+									</p:column>
+
+									<p:column>
+										<h:outputLabel value="Emissão:" />
+									</p:column>
+
+									<p:column>
+										<h:outputLabel value="Lançamento:" />
+									</p:column>
+
+									<p:column>
+										<h:outputLabel value="Status:" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:column>
+										<p:selectOneMenu id="statusFinanceiro" style="width:125px">
+											<f:selectItem itemLabel="Selecione um"
+												noSelectionOption="true" itemDisabled="true" />
+											<f:selectItems
+												value="#{financeiroBean.tipoMovimentacoesFinanceiro}"
+												var="tipoMov" itemValue="#{tipoMov}" itemLabel="#{tipoMov}" />
+										</p:selectOneMenu>
+									</p:column>
+
+									<p:column>
+										<p:inputMask mask="99/99/9999"
+											value="#{financeiroBean.financeiroDTO.emissao}"
+											converter="#{dateConverter}" />
+									</p:column>
+
+									<p:column>
+										<p:inputMask mask="99/99/9999"
+											value="#{financeiroBean.financeiroDTO.lancamento}"
+											converter="#{dateConverter}" />
+									</p:column>
+
+									<p:column>
+										<p:selectOneMenu id="statusFinanceiro" style="width:125px">
+											<f:selectItem itemLabel="Selecione um"
+												noSelectionOption="true" itemDisabled="true" />
+											<f:selectItem itemLabel="Todos" itemValue="value"
+												value="#{financeiroBean.financeiroDTO.statusFinanceiro}" />
+											<f:selectItems value="#{financeiroBean.statusFinanceiro}"
+												var="status" itemValue="#{status}" itemLabel="#{status}" />
+										</p:selectOneMenu>
+									</p:column>
+								</p:row>
+
+								<p:row>
+									<p:column>
+										<h:outputLabel value="Fornecedor" />
+									</p:column>
+								</p:row>
+								<p:row>
+									<p:inputText id="inCliente"
+										value="#{financeiroBean.financeiroDTO.fornecedor}"
+										disabled="true" style="width:50%" />
+									<p:spacer width="10" />
+									<p:commandButton icon="ui-icon-search" id="btnPesquisarCliente"
+										actionListener="#{pedidoBean.incluirCliente}">
+										<p:ajax event="dialogReturn"
+											listener="#{financeiroBean.clienteSelecionado}"
+											update="inCliente" />
+									</p:commandButton>
+								</p:row>
+							</p:panelGrid>
+							<br />
+							<p:commandButton value="Buscar"
+								actionListener="#{financeiroBean.buscar}" />
+						</p:panel>
+					</h:form>
+				</div>
+			</div>
+		</div>
+
+	</ui:define>
+
+</ui:composition>

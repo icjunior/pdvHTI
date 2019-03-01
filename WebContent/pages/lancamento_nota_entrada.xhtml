@@ -102,30 +102,6 @@
 							</p:fieldset>
 							<br />
 							<p:fieldset legend="Itens" toggleable="true">
-								<p:panelGrid id="pgEntradaItem" styleClass="ui-panelgrid-blank"
-									style="width:100%">
-									<p:row>
-										<p:column>
-											<h:outputLabel value="Material:" />
-										</p:column>
-									</p:row>
-									<p:row>
-										<p:column>
-											<p:inputText readonly="true" style="width:50%" id="inItem"
-												value="#{produtoEstoqueBean.produtoAjuste.produto.descricao}" />
-											<p:spacer width="10" />
-											<p:commandButton icon="ui-icon-search"
-												alt="Pesquisa de material"
-												actionListener="#{lancamentoNotaEntradaBean.incluirItem}"
-												process="@this">
-												<p:ajax event="dialogReturn"
-													listener="#{lancamentoNotaEntradaBean.produtoSelecionado}"
-													update="inItem, itensDT, pgResumoLancamento" />
-											</p:commandButton>
-										</p:column>
-									</p:row>
-								</p:panelGrid>
-								<br />
 								<p:dataTable id="itensDT"
 									value="#{lancamentoNotaEntradaBean.notaCabecalho.itens}"
 									var="item" emptyMessage="Nenhum item lançado" scrollable="true"
@@ -227,6 +203,15 @@
 									</p:column>
 								</p:dataTable>
 								<br />
+								<p:commandButton value="Incluir produto"
+									alt="Pesquisa de material"
+									actionListener="#{lancamentoNotaEntradaBean.incluirItem}"
+									process="@this">
+									<p:ajax event="dialogReturn"
+										listener="#{lancamentoNotaEntradaBean.produtoSelecionado}"
+										update="itensDT, pgResumoLancamento" />
+								</p:commandButton>
+								<br />
 								<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
 									id="pgResumoLancamento">
 									<p:row>
@@ -255,18 +240,60 @@
 							<br />
 							<p:fieldset legend="Financeiro" toggleable="true">
 								<p:dataTable emptyMessage="Nenhum lançamento efetuado"
-									id="financeiroDT">
-									<p:column headerText="Parcela"></p:column>
-									<p:column headerText="Vencimento"></p:column>
-									<p:column headerText="Valor"></p:column>
+									id="financeiroDT"
+									value="#{lancamentoNotaEntradaBean.notaCabecalho.financeiros}"
+									var="financeiro" editable="true" editMode="cell">
+									<p:column headerText="Atribuição">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{financeiro.atribuicao}" />
+											</f:facet>
+											<f:facet name="input">
+												<p:inputText value="#{financeiro.atribuicao}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Vencimento">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{financeiro.vencimento.time}">
+													<f:convertDateTime pattern="dd/MM/yyyy" />
+												</h:outputLabel>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputMask mask="99/99/9999"
+													value="#{financeiro.vencimento}"
+													converter="#{dateConverter}" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Valor">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{financeiro.valor}">
+													<f:convertNumber currencySymbol="R$" type="currency"
+														locale="pt_BR" />
+												</h:outputLabel>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputNumber decimalPlaces="2" decimalSeparator=","
+													symbol="R$ " value="#{financeiro.valor}" style="style:60%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
 									<p:column headerText="Ações">
+										<p:commandLink value="Excluir"
+											actionListener="#{lancamentoNotaEntradaBean.excluiFinanceiro(financeiro)}"
+											update="financeiroDT" process="@this" />
 									</p:column>
 								</p:dataTable>
 								<br />
 								<br />
 								<p:commandButton value="Incluir financeiro"
 									actionListener="#{lancamentoNotaEntradaBean.adicionaFinanceiro}"
-									update="" />
+									update="financeiroDT" process="@this" />
 							</p:fieldset>
 							<br />
 							<br />
