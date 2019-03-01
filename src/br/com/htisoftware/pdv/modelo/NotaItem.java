@@ -26,8 +26,16 @@ public class NotaItem implements Serializable {
 	BigDecimal valor;
 	@ManyToOne
 	NotaCabecalho notaCabecalho;
+	BigDecimal desconto = new BigDecimal(0.00);
 	@ManyToOne
 	CFOP cfop;
+
+	public BigDecimal getValorTotal() {
+		if (quantidade != null && valor != null) {
+			return quantidade.multiply(valor).subtract(desconto);
+		}
+		return new BigDecimal(0.00);
+	}
 
 	public Produto getProduto() {
 		return produto;
@@ -75,6 +83,22 @@ public class NotaItem implements Serializable {
 
 	public void setCfop(CFOP cfop) {
 		this.cfop = cfop;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
+	}
+
+	public BigDecimal getDesconto() {
+		return desconto;
+	}
+
+	public void setDesconto(BigDecimal desconto) {
+		this.desconto = desconto;
 	}
 
 	@Override

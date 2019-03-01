@@ -33,6 +33,8 @@ public class NotaCabecalho implements Serializable {
 	Calendar inclusao;
 	@OneToMany(mappedBy = "notaCabecalho")
 	List<NotaItem> itens;
+	@OneToMany(mappedBy = "notaCabecalho")
+	List<NotaFinanceiro> financeiros;
 
 	public void adicionaItem(NotaItem item) {
 		if (itens == null) {
@@ -47,7 +49,7 @@ public class NotaCabecalho implements Serializable {
 
 	public BigDecimal getTotalItens() {
 		if (itens != null) {
-			return itens.stream().filter(item -> item.getValor() != null).map(item -> item.getValor())
+			return itens.stream().filter(item -> item.getValorTotal() != null).map(item -> item.getValorTotal())
 					.reduce(BigDecimal.ZERO, BigDecimal::add);
 		}
 		return BigDecimal.ZERO;

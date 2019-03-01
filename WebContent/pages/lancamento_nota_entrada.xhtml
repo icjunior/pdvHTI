@@ -131,7 +131,7 @@
 									var="item" emptyMessage="Nenhum item lançado" scrollable="true"
 									scrollHeight="250" editable="true" editMode="cell">
 
-									<p:column headerText="CFOP">
+									<p:column headerText="CFOP" style="width:5%">
 										<p:cellEditor>
 											<f:facet name="output">
 												<h:outputLabel value="#{item.cfop.cfop}" />
@@ -150,18 +150,18 @@
 										<h:outputLabel value="#{item.produto.ean}" />
 									</p:column>
 
-									<p:column headerText="Descrição">
+									<p:column headerText="Descrição" style="width:30%">
 										<h:outputLabel value="#{item.produto.descricao}" />
 									</p:column>
 
-									<p:column headerText="Embalagem">
+									<p:column headerText="Emb.">
 										<p:cellEditor>
 											<f:facet name="output">
 												<h:outputText value="#{item.embalagem}" />
 											</f:facet>
 											<f:facet name="input">
-												<p:inputText value="#{item.embalagem}" style="width:96%"
-													label="Embalagem" />
+												<p:inputText value="#{item.embalagem}" label="Embalagem"
+													style="width:80%" />
 											</f:facet>
 										</p:cellEditor>
 									</p:column>
@@ -172,7 +172,7 @@
 												<h:outputLabel value="#{item.quantidade}" />
 											</f:facet>
 											<f:facet name="input">
-												<p:inputText value="#{item.quantidade}" style="width:96%"
+												<p:inputText value="#{item.quantidade}" style="width:80%"
 													label="Quantidade" />
 											</f:facet>
 										</p:cellEditor>
@@ -189,16 +189,31 @@
 											</f:facet>
 											<f:facet name="input">
 												<p:inputNumber decimalPlaces="2" decimalSeparator=","
-													symbol="R$ " value="#{item.valor}">
+													symbol="R$ " value="#{item.valor}" style="style:60%" />
+											</f:facet>
+										</p:cellEditor>
+									</p:column>
+
+									<p:column headerText="Desc.">
+										<p:cellEditor>
+											<f:facet name="output">
+												<h:outputLabel value="#{item.desconto}">
+													<f:convertNumber currencySymbol="R$" type="currency"
+														locale="pt_BR" />
+												</h:outputLabel>
+											</f:facet>
+											<f:facet name="input">
+												<p:inputNumber decimalPlaces="2" decimalSeparator=","
+													symbol="R$ " value="#{item.desconto}" style="style:60%">
 													<p:ajax event="blur"
-														update=":formEntradaNota:pgResumoLancamento" />
+														update=":formEntradaNota:pgResumoLancamento, itensDT" />
 												</p:inputNumber>
 											</f:facet>
 										</p:cellEditor>
 									</p:column>
 
 									<p:column headerText="Vlr. tot.">
-										<h:outputLabel value="#{item.valor}">
+										<h:outputLabel value="#{item.valorTotal}">
 											<f:convertNumber currencySymbol="R$" type="currency"
 												locale="pt_BR" />
 										</h:outputLabel>
@@ -239,18 +254,19 @@
 							</p:fieldset>
 							<br />
 							<p:fieldset legend="Financeiro" toggleable="true">
-								<p:dataTable emptyMessage="Nenhum lançamento efetuado">
+								<p:dataTable emptyMessage="Nenhum lançamento efetuado"
+									id="financeiroDT">
+									<p:column headerText="Parcela"></p:column>
 									<p:column headerText="Vencimento"></p:column>
 									<p:column headerText="Valor"></p:column>
-									<p:column headerText="Desconto"></p:column>
-									<p:column headerText="Acréscimo"></p:column>
-									<p:column headerText="Cód. barras"></p:column>
 									<p:column headerText="Ações">
 									</p:column>
 								</p:dataTable>
 								<br />
 								<br />
-								<p:commandButton value="Incluir financeiro" />
+								<p:commandButton value="Incluir financeiro"
+									actionListener="#{lancamentoNotaEntradaBean.adicionaFinanceiro}"
+									update="" />
 							</p:fieldset>
 							<br />
 							<br />
@@ -262,7 +278,5 @@
 				</div>
 			</div>
 		</div>
-
 	</ui:define>
-
 </ui:composition>
