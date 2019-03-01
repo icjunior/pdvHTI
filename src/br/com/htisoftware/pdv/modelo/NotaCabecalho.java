@@ -2,7 +2,6 @@ package br.com.htisoftware.pdv.modelo;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -14,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 public class NotaCabecalho implements Serializable {
@@ -25,11 +26,14 @@ public class NotaCabecalho implements Serializable {
 	private int codigo;
 	@ManyToOne
 	Cliente cliente;
-	BigInteger numero;
-	BigInteger serie;
+	String numero;
+	String serie;
 	BigDecimal valor;
+	@Temporal(TemporalType.DATE)
 	Calendar emissao;
+	@Temporal(TemporalType.DATE)
 	Calendar lancamento;
+	@Temporal(TemporalType.TIMESTAMP)
 	Calendar inclusao;
 	@OneToMany(mappedBy = "notaCabecalho")
 	List<NotaItem> itens;
@@ -63,19 +67,19 @@ public class NotaCabecalho implements Serializable {
 		this.cliente = cliente;
 	}
 
-	public BigInteger getNumero() {
+	public String getNumero() {
 		return numero;
 	}
 
-	public void setNumero(BigInteger numero) {
+	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
-	public BigInteger getSerie() {
+	public String getSerie() {
 		return serie;
 	}
 
-	public void setSerie(BigInteger serie) {
+	public void setSerie(String serie) {
 		this.serie = serie;
 	}
 

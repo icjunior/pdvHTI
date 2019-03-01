@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoDirecaoFinanceiro;
@@ -25,6 +27,7 @@ public class Financeiro {
 	@ManyToOne
 	NotaCabecalho notaCabecalho;
 	private String atribuicao;
+	@Temporal(TemporalType.DATE)
 	private Calendar vencimento;
 	private BigDecimal valor;
 	private String codBarras;
@@ -34,6 +37,10 @@ public class Financeiro {
 	StatusPagamentoFinanceiro statusPagamentoFinanceiro = StatusPagamentoFinanceiro.ABERTO;
 	@Enumerated(EnumType.STRING)
 	TipoDirecaoFinanceiro tipoDirecaoFinanceiro;
+	private String observacao;
+	private boolean excluido;
+	@ManyToOne
+	TipoPagamentoFinanceiro tipoPagamentoFinanceiro;
 
 	public int getCodigo() {
 		return codigo;
@@ -113,6 +120,30 @@ public class Financeiro {
 
 	public void setStatusPagamentoFinanceiro(StatusPagamentoFinanceiro statusPagamentoFinanceiro) {
 		this.statusPagamentoFinanceiro = statusPagamentoFinanceiro;
+	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public boolean isExcluido() {
+		return excluido;
+	}
+
+	public void setExcluido(boolean excluido) {
+		this.excluido = excluido;
+	}
+
+	public TipoPagamentoFinanceiro getTipoPagamentoFinanceiro() {
+		return tipoPagamentoFinanceiro;
+	}
+
+	public void setTipoPagamentoFinanceiro(TipoPagamentoFinanceiro tipoPagamentoFinanceiro) {
+		this.tipoPagamentoFinanceiro = tipoPagamentoFinanceiro;
 	}
 
 	@Override

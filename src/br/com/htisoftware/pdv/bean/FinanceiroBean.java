@@ -14,6 +14,7 @@ import br.com.htisoftware.pdv.dto.FinanceiroDTO;
 import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoMovimentacaoEstoque;
 import br.com.htisoftware.pdv.modelo.Cliente;
+import br.com.htisoftware.pdv.modelo.Financeiro;
 import br.com.htisoftware.pdv.service.FinanceiroService;
 import br.com.htisoftware.pdv.util.PdvUtils;
 
@@ -26,6 +27,11 @@ public class FinanceiroBean implements Serializable {
 	FinanceiroDTO financeiroDTO;
 	@Inject
 	FinanceiroService financeiroService;
+	List<Financeiro> financeiros;
+
+	public void buscar() {
+		financeiros = financeiroService.buscar(financeiroDTO);
+	}
 
 	public void incluirCliente() {
 		PdvUtils.abreDialog("/dialog/cliente_consulta", false, "100%", "85vh");
@@ -50,5 +56,13 @@ public class FinanceiroBean implements Serializable {
 
 	public void setFinanceiroDTO(FinanceiroDTO financeiroDTO) {
 		this.financeiroDTO = financeiroDTO;
+	}
+
+	public List<Financeiro> getFinanceiros() {
+		return financeiros;
+	}
+
+	public void setFinanceiros(List<Financeiro> financeiros) {
+		this.financeiros = financeiros;
 	}
 }

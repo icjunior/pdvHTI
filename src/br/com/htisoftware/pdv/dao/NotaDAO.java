@@ -5,9 +5,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
-import br.com.htisoftware.pdv.modelo.NotaCabecalho;
 import br.com.htisoftware.pdv.enums.TipoDirecaoFinanceiro;
 import br.com.htisoftware.pdv.modelo.Financeiro;
+import br.com.htisoftware.pdv.modelo.NotaCabecalho;
 import br.com.htisoftware.pdv.modelo.NotaItem;
 
 public class NotaDAO {

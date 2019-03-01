@@ -16,80 +16,163 @@
 				<div class="Card ShadowEffect TexAlLeft">
 					<h:form id="formFinanceiroGeral">
 						<p:panel id="pnFinanceiroGeral">
-							<p:panelGrid id="pgFinanceiroGeral">
-								<p:row>
-									<p:column>
-										<h:outputLabel value="Tipo movim.:" />
-									</p:column>
+							<p:fieldset legend="Filtro" toggleable="true">
+								<p:panelGrid id="pgFinanceiroGeral"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Tipo movim.:" />
+										</p:column>
 
-									<p:column>
-										<h:outputLabel value="Emissão:" />
-									</p:column>
+										<p:column>
+											<h:outputLabel value="Emissão:" />
+										</p:column>
 
-									<p:column>
-										<h:outputLabel value="Lançamento:" />
-									</p:column>
+										<p:column>
+											<h:outputLabel value="Lançamento:" />
+										</p:column>
 
-									<p:column>
-										<h:outputLabel value="Status:" />
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:column>
-										<p:selectOneMenu id="statusFinanceiro" style="width:125px">
-											<f:selectItem itemLabel="Selecione um"
-												noSelectionOption="true" itemDisabled="true" />
-											<f:selectItems
-												value="#{financeiroBean.tipoMovimentacoesFinanceiro}"
-												var="tipoMov" itemValue="#{tipoMov}" itemLabel="#{tipoMov}" />
-										</p:selectOneMenu>
-									</p:column>
+										<p:column>
+											<h:outputLabel value="Status:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:selectOneMenu id="tipoMovimentoFinanceiro"
+												style="width:125px"
+												value="#{financeiroBean.financeiroDTO.tipoMovimentacaoEstoque}">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItems
+													value="#{financeiroBean.tipoMovimentacoesFinanceiro}"
+													var="tipoMov" itemValue="#{tipoMov}" itemLabel="#{tipoMov}" />
+											</p:selectOneMenu>
+										</p:column>
 
-									<p:column>
-										<p:inputMask mask="99/99/9999"
-											value="#{financeiroBean.financeiroDTO.emissao}"
-											converter="#{dateConverter}" />
-									</p:column>
+										<p:column>
+											<p:calendar value="#{financeiroBean.financeiroDTO.emissao}"
+												converter="#{dateConverter}" pattern="dd/MM/yyyy" />
+										</p:column>
 
-									<p:column>
-										<p:inputMask mask="99/99/9999"
-											value="#{financeiroBean.financeiroDTO.lancamento}"
-											converter="#{dateConverter}" />
-									</p:column>
+										<p:column>
+											<p:calendar
+												value="#{financeiroBean.financeiroDTO.lancamento}"
+												pattern="dd/MM/yyyy" converter="#{dateConverter}" />
+										</p:column>
 
-									<p:column>
-										<p:selectOneMenu id="statusFinanceiro" style="width:125px">
-											<f:selectItem itemLabel="Selecione um"
-												noSelectionOption="true" itemDisabled="true" />
-											<f:selectItem itemLabel="Todos" itemValue="value"
-												value="#{financeiroBean.financeiroDTO.statusFinanceiro}" />
-											<f:selectItems value="#{financeiroBean.statusFinanceiro}"
-												var="status" itemValue="#{status}" itemLabel="#{status}" />
-										</p:selectOneMenu>
-									</p:column>
-								</p:row>
+										<p:column>
+											<p:selectOneMenu id="statusFinanceiro" style="width:125px"
+												value="#{financeiroBean.financeiroDTO.statusFinanceiro}">
+												<f:selectItem itemLabel="Selecione um"
+													noSelectionOption="true" itemDisabled="true" />
+												<f:selectItem itemLabel="Todos" itemValue="value"
+													value="#{financeiroBean.financeiroDTO.statusFinanceiro}" />
+												<f:selectItems value="#{financeiroBean.statusFinanceiro}"
+													var="status" itemValue="#{status}" itemLabel="#{status}" />
+											</p:selectOneMenu>
+										</p:column>
+									</p:row>
 
-								<p:row>
-									<p:column>
-										<h:outputLabel value="Fornecedor" />
-									</p:column>
-								</p:row>
-								<p:row>
-									<p:inputText id="inCliente"
-										value="#{financeiroBean.financeiroDTO.fornecedor}"
-										disabled="true" style="width:50%" />
-									<p:spacer width="10" />
-									<p:commandButton icon="ui-icon-search" id="btnPesquisarCliente"
-										actionListener="#{pedidoBean.incluirCliente}">
-										<p:ajax event="dialogReturn"
-											listener="#{financeiroBean.clienteSelecionado}"
-											update="inCliente" />
-									</p:commandButton>
-								</p:row>
-							</p:panelGrid>
+									<p:row>
+										<p:column>
+											<h:outputLabel value="NF:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Fornecedor" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText />
+										</p:column>
+										<p:column colspan="2">
+											<p:inputText id="inCliente"
+												value="#{financeiroBean.financeiroDTO.fornecedor}"
+												disabled="true" style="width:80%" />
+											<p:spacer width="10" />
+											<p:commandButton icon="ui-icon-search"
+												id="btnPesquisarCliente"
+												actionListener="#{pedidoBean.incluirCliente}">
+												<p:ajax event="dialogReturn"
+													listener="#{financeiroBean.clienteSelecionado}"
+													update="inCliente" />
+											</p:commandButton>
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+								<br />
+								<p:commandButton value="Buscar"
+									actionListener="#{financeiroBean.buscar}" />
+							</p:fieldset>
 							<br />
-							<p:commandButton value="Buscar"
-								actionListener="#{financeiroBean.buscar}" />
+							<p:dataTable emptyMessage="Nenhum registro encontrado">
+								<p:column headerText="NF"></p:column>
+								<p:column headerText="Série"></p:column>
+								<p:column headerText="Fornecedor"></p:column>
+								<p:column headerText="Emissão"></p:column>
+								<p:column headerText="Lançamento"></p:column>
+								<p:column headerText="Valor"></p:column>
+								<p:column headerText="Cód. barras"></p:column>
+								<p:column headerText="Atribuição"></p:column>
+							</p:dataTable>
+							<br />
+							<p:menuButton value="Opções" id="opcoes">
+								<p:menuitem value="Detalhes" />
+								<p:menuitem value="Desmembrar" />
+								<p:menuitem value="Agrupar" />
+								<p:menuitem value="Gerar arquivo" />
+								<p:menuitem value="Excluir" />
+								<p:menuitem value="Baixar" />
+								<p:menuitem value="Editar" />
+								<p:menuitem value="Edição em massa" />
+								<p:menuitem value="Novo lançamento" />
+							</p:menuButton>
+							<br />
+							<br />
+							<p:panel>
+								<p:panelGrid id="pgResumoFinanceiro"
+									styleClass="ui-panelgrid-blank" style="width:100%">
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Total bruto:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Total líquido:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Registros selecionados:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText readonly="true" />
+										</p:column>
+										<p:column>
+											<p:inputText readonly="true" />
+										</p:column>
+										<p:column>
+											<p:inputText readonly="true" />
+										</p:column>
+									</p:row>
+
+									<p:row>
+										<p:column>
+											<h:outputLabel value="Total descontos:" />
+										</p:column>
+										<p:column>
+											<h:outputLabel value="Total acréscimos:" />
+										</p:column>
+									</p:row>
+									<p:row>
+										<p:column>
+											<p:inputText readonly="true" />
+										</p:column>
+										<p:column>
+											<p:inputText readonly="true" />
+										</p:column>
+									</p:row>
+								</p:panelGrid>
+							</p:panel>
 						</p:panel>
 					</h:form>
 				</div>

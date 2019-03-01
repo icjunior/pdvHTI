@@ -1,6 +1,7 @@
 package br.com.htisoftware.pdv.dto;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Calendar;
 
 import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
@@ -12,9 +13,11 @@ public class FinanceiroDTO implements Serializable {
 	private static final long serialVersionUID = -8764617726778239528L;
 	private Calendar emissao;
 	private Calendar lancamento;
+	private Calendar vencimento;
 	private StatusPagamentoFinanceiro statusFinanceiro;
 	private Cliente fornecedor;
 	private TipoMovimentacaoEstoque tipoMovimentacaoEstoque;
+	private BigInteger nf;
 
 	public Calendar getEmissao() {
 		return emissao;
@@ -54,5 +57,21 @@ public class FinanceiroDTO implements Serializable {
 
 	public void setTipoMovimentacaoEstoque(TipoMovimentacaoEstoque tipoMovimentacaoEstoque) {
 		this.tipoMovimentacaoEstoque = tipoMovimentacaoEstoque;
+	}
+
+	public BigInteger getNf() {
+		return nf;
+	}
+
+	public void setNf(BigInteger nf) {
+		this.nf = nf;
+	}
+
+	public Calendar getVencimento() {
+		return vencimento;
+	}
+
+	public void setVencimento(Calendar vencimento) {
+		this.vencimento = vencimento;
 	}
 }
