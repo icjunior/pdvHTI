@@ -12,6 +12,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import br.com.htisoftware.pdv.dto.FinanceiroDTO;
+import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.modelo.Cliente;
 import br.com.htisoftware.pdv.modelo.Financeiro;
 import br.com.htisoftware.pdv.modelo.NotaCabecalho;
@@ -28,7 +29,7 @@ public class FinanceiroDAO {
 		Predicate predicate = builder.and();
 
 		Join<Financeiro, NotaCabecalho> joinNota = from.join("notaCabecalho");
-		Join<Financeiro, Cliente> joinCliente = from.join("cliente");
+		Join<NotaCabecalho, Cliente> joinCliente = joinNota.join("cliente");
 
 		if (financeiroDTO.getTipoMovimentacaoEstoque() != null) {
 			predicate = builder.and(predicate,
@@ -66,5 +67,35 @@ public class FinanceiroDAO {
 				.createQuery(query.select(from).where(predicate).orderBy(builder.asc(from.get("codigo"))));
 
 		return typedQuery.getResultList();
+	}
+
+	public void excluir(List<Financeiro> financeirosSelecionados) {
+		em.getTransaction().begin();
+		financeirosSelecionados.forEach(financeiro -> {
+			financeiro.setExcluido(true);
+			em.merge(financeiro);
+		});
+		em.getTransaction().commit();
+	}
+
+	public void baixar(List<Financeiro> financeirosSelecionados) {
+		em.getTransaction().begin();
+		financeirosSelecionados.forEach(financeiro -> {
+			financeiro.setStatusPagamentoFinanceiro(StatusPagamentoFinanceiro.LIQUIDADO);
+			em.merge(financeiro);
+		});
+		em.getTransaction().commit();
+	}
+
+	public void gravar(Financeiro financeiro) {
+		em.getTransaction().begin();
+		em.persist(financeiro);
+		em.getTransaction().commit();
+	}
+
+	public void alterar(Financeiro financeiro) {
+		em.getTransaction().begin();
+		em.merge(financeiro);
+		em.getTransaction().commit();
 	}
 }

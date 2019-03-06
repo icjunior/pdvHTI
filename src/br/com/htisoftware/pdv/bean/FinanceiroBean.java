@@ -1,6 +1,8 @@
 package br.com.htisoftware.pdv.bean;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import br.com.htisoftware.pdv.enums.TipoMovimentacaoEstoque;
 import br.com.htisoftware.pdv.modelo.Cliente;
 import br.com.htisoftware.pdv.modelo.Financeiro;
 import br.com.htisoftware.pdv.service.FinanceiroService;
+import br.com.htisoftware.pdv.util.ERPUtils;
 import br.com.htisoftware.pdv.util.PdvUtils;
 
 @Named
@@ -28,6 +31,9 @@ public class FinanceiroBean implements Serializable {
 	@Inject
 	FinanceiroService financeiroService;
 	List<Financeiro> financeiros;
+	List<Financeiro> financeirosSelecionados;
+	List<Financeiro> financeiroDesmembrado;
+	private int numeroParcelasDesmembramento;
 
 	public void buscar() {
 		financeiros = financeiroService.buscar(financeiroDTO);
@@ -37,13 +43,51 @@ public class FinanceiroBean implements Serializable {
 		PdvUtils.abreDialog("/dialog/cliente_consulta", false, "100%", "85vh");
 	}
 
+	public void excluir() {
+		financeiroService.excluir(financeirosSelecionados);
+	}
+
+	public void baixar() {
+		financeiroService.baixar(financeirosSelecionados);
+	}
+
+	public void desmembrar() {
+		financeiroService.desmembrar(financeiroDesmembrado, financeirosSelecionados);
+		financeiroDesmembrado = new ArrayList<>();
+	}
+
+	public void calculaDesmembramento() {
+		financeiroDesmembrado = financeiroService.calculaDesmembramento(financeirosSelecionados,
+				numeroParcelasDesmembramento);
+	}
+
 	public void clienteSelecionado(SelectEvent event) {
 		Cliente cliente = (Cliente) event.getObject();
 		financeiroDTO.setFornecedor(cliente);
 	}
 
+	public void excluirDesmembramento(Financeiro financeiro) {
+		financeiroDesmembrado.remove(financeiro);
+	}
+
 	public List<StatusPagamentoFinanceiro> getStatusFinanceiro() {
 		return Arrays.asList(StatusPagamentoFinanceiro.values());
+	}
+
+	public BigDecimal getTotalBruto() {
+		return ERPUtils.financeiroTotalBruto(financeiros);
+	}
+
+	public BigDecimal getTotalLiquido() {
+		return ERPUtils.financeiroTotalLiquido(financeiros);
+	}
+
+	public BigDecimal getTotalDescontos() {
+		return ERPUtils.financeiroTotalDescontos(financeiros);
+	}
+
+	public BigDecimal getTotalAcrescimos() {
+		return ERPUtils.financeiroTotalAcrescimo(financeiros);
 	}
 
 	public List<TipoMovimentacaoEstoque> getTipoMovimentacoesFinanceiro() {
@@ -64,5 +108,29 @@ public class FinanceiroBean implements Serializable {
 
 	public void setFinanceiros(List<Financeiro> financeiros) {
 		this.financeiros = financeiros;
+	}
+
+	public List<Financeiro> getFinanceirosSelecionados() {
+		return financeirosSelecionados;
+	}
+
+	public void setFinanceirosSelecionados(List<Financeiro> financeirosSelecionados) {
+		this.financeirosSelecionados = financeirosSelecionados;
+	}
+
+	public int getNumeroParcelasDesmembramento() {
+		return numeroParcelasDesmembramento;
+	}
+
+	public void setNumeroParcelasDesmembramento(int numeroParcelasDesmembramento) {
+		this.numeroParcelasDesmembramento = numeroParcelasDesmembramento;
+	}
+
+	public List<Financeiro> getFinanceiroDesmembrado() {
+		return financeiroDesmembrado;
+	}
+
+	public void setFinanceiroDesmembrado(List<Financeiro> financeiroDesmembrado) {
+		this.financeiroDesmembrado = financeiroDesmembrado;
 	}
 }

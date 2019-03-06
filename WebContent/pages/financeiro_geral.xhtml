@@ -10,11 +10,12 @@
     </ui:define>
 
 	<ui:define name="content">
-
+		<ui:include src="/dialog/financeiro_desmembramento.xhtml" />
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect TexAlLeft">
 					<h:form id="formFinanceiroGeral">
+						<p:growl id="growl" />
 						<p:panel id="pnFinanceiroGeral">
 							<p:fieldset legend="Filtro" toggleable="true">
 								<p:panelGrid id="pgFinanceiroGeral"
@@ -102,27 +103,70 @@
 								</p:panelGrid>
 								<br />
 								<p:commandButton value="Buscar"
-									actionListener="#{financeiroBean.buscar}" />
+									actionListener="#{financeiroBean.buscar}"
+									update="financeiroDT, pgResumoFinanceiro" />
 							</p:fieldset>
 							<br />
-							<p:dataTable emptyMessage="Nenhum registro encontrado">
-								<p:column headerText="NF"></p:column>
-								<p:column headerText="Série"></p:column>
-								<p:column headerText="Fornecedor"></p:column>
-								<p:column headerText="Emissão"></p:column>
-								<p:column headerText="Lançamento"></p:column>
-								<p:column headerText="Valor"></p:column>
-								<p:column headerText="Cód. barras"></p:column>
-								<p:column headerText="Atribuição"></p:column>
+							<p:dataTable emptyMessage="Nenhum registro encontrado"
+								id="financeiroDT" value="#{financeiroBean.financeiros}"
+								var="financeiro"
+								selection="#{financeiroBean.financeirosSelecionados}"
+								selectionMode="multiple" rowKey="#{financeiro.codigo}">
+
+								<p:ajax event="rowSelect" update=":formFinanceiroGeral:opcoes" />
+								<p:ajax event="rowUnselect" update=":formFinanceiroGeral:opcoes" />
+
+								<p:column headerText="Tipo">
+									<h:outputLabel value="#{financeiro.tipoDirecaoFinanceiro}" />
+								</p:column>
+
+								<p:column headerText="NF">
+									<h:outputLabel value="#{financeiro.notaCabecalho.numero}" />
+								</p:column>
+								<p:column headerText="Série">
+									<h:outputLabel value="#{financeiro.notaCabecalho.serie}" />
+								</p:column>
+								<p:column headerText="Fornecedor">
+									<h:outputLabel value="#{financeiro.notaCabecalho.cliente.nome}" />
+								</p:column>
+								<p:column headerText="Emissão">
+									<h:outputLabel value="#{financeiro.notaCabecalho.emissao.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</p:column>
+								<p:column headerText="Lançamento">
+									<h:outputLabel
+										value="#{financeiro.notaCabecalho.lancamento.time}">
+										<f:convertDateTime pattern="dd/MM/yyyy" />
+									</h:outputLabel>
+								</p:column>
+								<p:column headerText="Valor">
+									<h:outputLabel value="#{financeiro.valor}">
+										<f:convertNumber currencySymbol="R$" type="currency"
+											locale="pt_BR" />
+									</h:outputLabel>
+								</p:column>
+								<p:column headerText="Status">
+									<h:outputLabel value="#{financeiro.statusPagamentoFinanceiro}" />
+								</p:column>
+								<p:column headerText="Atribuição">
+									<h:outputLabel value="#{financeiro.atribuicao}" />
+								</p:column>
 							</p:dataTable>
 							<br />
 							<p:menuButton value="Opções" id="opcoes">
 								<p:menuitem value="Detalhes" />
-								<p:menuitem value="Desmembrar" />
-								<p:menuitem value="Agrupar" />
+								<p:menuitem value="Desmembrar"
+									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}"
+									onclick="PF('financeiroDesmembramentoDialog').show()"
+									update=":formDesmembramentoFinanceiro:financeiroDL" />
+								<p:menuitem value="Agrupar"
+									disabled="#{financeiroBean.financeirosSelecionados.size() != 1}" />
 								<p:menuitem value="Gerar arquivo" />
-								<p:menuitem value="Excluir" />
-								<p:menuitem value="Baixar" />
+								<p:menuitem value="Excluir"
+									actionListener="#{financeiroBean.excluir}" update="growl" />
+								<p:menuitem value="Baixar"
+									actionListener="#{financeiroBean.baixar}" update="growl" />
 								<p:menuitem value="Editar" />
 								<p:menuitem value="Edição em massa" />
 								<p:menuitem value="Novo lançamento" />
@@ -145,13 +189,22 @@
 									</p:row>
 									<p:row>
 										<p:column>
-											<p:inputText readonly="true" />
+											<p:inputText readonly="true"
+												value="#{financeiroBean.totalBruto}">
+												<f:convertNumber currencySymbol="R$" type="currency"
+													locale="pt_BR" />
+											</p:inputText>
 										</p:column>
 										<p:column>
-											<p:inputText readonly="true" />
+											<p:inputText readonly="true"
+												value="#{financeiroBean.totalLiquido}">
+												<f:convertNumber currencySymbol="R$" type="currency"
+													locale="pt_BR" />
+											</p:inputText>
 										</p:column>
 										<p:column>
-											<p:inputText readonly="true" />
+											<p:inputText readonly="true"
+												value="#{financeiroBean.financeiros.size()}" />
 										</p:column>
 									</p:row>
 
@@ -165,10 +218,18 @@
 									</p:row>
 									<p:row>
 										<p:column>
-											<p:inputText readonly="true" />
+											<p:inputText readonly="true"
+												value="#{financeiroBean.totalDescontos}">
+												<f:convertNumber currencySymbol="R$" type="currency"
+													locale="pt_BR" />
+											</p:inputText>
 										</p:column>
 										<p:column>
-											<p:inputText readonly="true" />
+											<p:inputText readonly="true"
+												value="#{financeiroBean.totalAcrescimos}">
+												<f:convertNumber currencySymbol="R$" type="currency"
+													locale="pt_BR" />
+											</p:inputText>
 										</p:column>
 									</p:row>
 								</p:panelGrid>
@@ -178,7 +239,5 @@
 				</div>
 			</div>
 		</div>
-
 	</ui:define>
-
 </ui:composition>

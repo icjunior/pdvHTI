@@ -1,6 +1,7 @@
 package br.com.htisoftware.pdv.util;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,6 +10,7 @@ import br.com.htisoftware.pdv.enums.TipoMovimentacaoEstoque;
 import br.com.htisoftware.pdv.modelo.CEST;
 import br.com.htisoftware.pdv.modelo.CFOP;
 import br.com.htisoftware.pdv.modelo.CST;
+import br.com.htisoftware.pdv.modelo.Financeiro;
 import br.com.htisoftware.pdv.modelo.NCM;
 import br.com.htisoftware.pdv.modelo.ProdutoAjusteEstoque;
 
@@ -45,5 +47,54 @@ public class ERPUtils {
 			return produto.getProduto().getEstoque().add(produto.getQuantidade());
 		}
 		return produto.getProduto().getEstoque().subtract(produto.getQuantidade());
+	}
+
+	public static BigDecimal financeiroTotalBruto(List<Financeiro> financeiros) {
+		if (financeiros != null) {
+			return financeiros.stream().map(financeiro -> financeiro.getValor()).reduce(BigDecimal.ZERO,
+					BigDecimal::add);
+		}
+		return new BigDecimal(0.00);
+	}
+
+	public static BigDecimal financeiroTotalDescontos(List<Financeiro> financeiros) {
+		if (financeiros != null) {
+			return financeiros.stream().map(financeiro -> financeiro.getValor().multiply(financeiro.getDesconto()))
+					.reduce(BigDecimal.ZERO, BigDecimal::add);
+		}
+		return new BigDecimal(0.00);
+	}
+
+	public static BigDecimal financeiroTotalAcrescimo(List<Financeiro> financeiros) {
+		if (financeiros != null) {
+			return financeiros.stream().map(financeiro -> financeiro.getValor().multiply(financeiro.getAcrescimo()))
+					.reduce(BigDecimal.ZERO, BigDecimal::add);
+		}
+		return new BigDecimal(0.00);
+	}
+
+	public static BigDecimal financeiroTotalLiquido(List<Financeiro> financeiros) {
+		if (financeiros != null) {
+			return financeiros.stream().map(financeiro -> financeiro.getTotalLiquido()).reduce(BigDecimal.ZERO,
+					BigDecimal::add);
+		}
+		return new BigDecimal(0.00);
+	}
+
+	public static List<Financeiro> calculaDesmembramento(Financeiro financeiro, int numeroParcelas) {
+		List<Financeiro> financeiroDesmembrado = new ArrayList<>();
+		List<Financeiro> financeirosRelacionados = new ArrayList<>();
+		financeirosRelacionados.add(financeiro);
+		BigDecimal valorLiquido = financeiro.getValor().add(financeiro.getAcrescimo())
+				.subtract(financeiro.getDesconto());
+		BigDecimal valorParcela = valorLiquido.divide(new BigDecimal(numeroParcelas));
+		for (int i = 0; i < numeroParcelas; i++) {
+			financeiroDesmembrado.add(new Financeiro(financeiro.getNotaCabecalho(), financeiro.getAtribuicao(), null,
+					valorParcela, financeiro.getCodBarras(), BigDecimal.ZERO, BigDecimal.ZERO,
+					financeiro.getStatusPagamentoFinanceiro(), financeiro.getTipoDirecaoFinanceiro(),
+					financeiro.getObservacao(), financeiro.isExcluido(), financeiro.getTipoPagamentoFinanceiro(),
+					financeirosRelacionados));
+		}
+		return financeiroDesmembrado;
 	}
 }

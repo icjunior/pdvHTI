@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="financeiroDesmembramentoDialog" modal="true"
+	resizable="false" header="Desmembramento" closable="true"
+	closeOnEscape="true" width="80%">
+	<h:form id="formDesmembramentoFinanceiro">
+		<p:growl id="growl" sticky="true" />
+		<p:dataList value="#{financeiroBean.financeirosSelecionados}"
+			var="financeiro" id="financeiroDL" itemType="none">
+			<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%">
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Fornecedor:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Nota:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Série:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Emissão:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Lançamento:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Valor:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.cliente.nome}" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.numero}" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.serie}" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.emissao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.lancamento.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.valor}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</h:outputLabel>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:dataList>
+		<br />
+		<p:spinner id="minMax"
+			value="#{financeiroBean.numeroParcelasDesmembramento}" min="2"
+			required="true"
+			requiredMessage="Número de parcelas deve ser informado" />
+		<p:spacer width="10" />
+		<p:commandButton value="Calcular"
+			actionListener="#{financeiroBean.calculaDesmembramento}"
+			update="desmembramentosDT" />
+		<br />
+		<br />
+		<p:dataTable id="desmembramentosDT"
+			value="#{financeiroBean.financeiroDesmembrado}" var="desmembramento"
+			emptyMessage="Nenhum desmembramento efetuado" editable="true"
+			editMode="cell" scrollable="true" scrollHeight="200">
+
+			<p:column headerText="Vencimento">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputLabel value="#{desmembramento.vencimento.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputLabel>
+					</f:facet>
+					<f:facet name="input">
+						<p:calendar value="#{desmembramento.vencimento}"
+							pattern="dd/MM/yyyy" converter="#{dateConverter}" required="true"
+							requiredMessage="Vencimento deve ser informado" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Valor">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputLabel value="#{desmembramento.valor}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</h:outputLabel>
+					</f:facet>
+					<f:facet name="input">
+						<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
+							value="#{desmembramento.valor}" style="style:60%" required="true"
+							requiredMessage="Valor deve ser informado" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+			<p:column headerText="Ação">
+				<p:commandLink value="Excluir"
+					actionListener="#{financeiroBean.excluirDesmembramento(desmembramento)}"
+					update="desmembramentosDT" process="@this" />
+			</p:column>
+		</p:dataTable>
+		<br />
+		<p:commandButton value="Salvar"
+			actionListener="#{financeiroBean.desmembrar}" update="growl"
+			validateClient="true" />
+		<p:commandButton value="Fechar"
+			onclick="PF('financeiroDesmembramentoDialog').hide()" />
+	</h:form>
+</p:dialog>
+</html>

@@ -2,6 +2,7 @@ package br.com.htisoftware.pdv.modelo;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,10 +10,12 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoDirecaoFinanceiro;
@@ -28,11 +31,13 @@ public class Financeiro {
 	NotaCabecalho notaCabecalho;
 	private String atribuicao;
 	@Temporal(TemporalType.DATE)
+	@NotNull(message = "Vencimento não pode ser em branco")
 	private Calendar vencimento;
+	@NotNull(message = "Valor não pode ser em branco")
 	private BigDecimal valor;
 	private String codBarras;
-	private BigDecimal desconto;
-	private BigDecimal acrescimo;
+	private BigDecimal desconto = new BigDecimal(0.00);
+	private BigDecimal acrescimo = new BigDecimal(0.00);
 	@Enumerated(EnumType.STRING)
 	StatusPagamentoFinanceiro statusPagamentoFinanceiro = StatusPagamentoFinanceiro.ABERTO;
 	@Enumerated(EnumType.STRING)
@@ -41,6 +46,37 @@ public class Financeiro {
 	private boolean excluido;
 	@ManyToOne
 	TipoPagamentoFinanceiro tipoPagamentoFinanceiro;
+	@ManyToMany
+	List<Financeiro> financeirosRelacionados;
+
+	public Financeiro() {
+
+	}
+
+	public Financeiro(NotaCabecalho notaCabecalho, String atribuicao, Calendar vencimento, BigDecimal valor,
+			String codBarras, BigDecimal desconto, BigDecimal acrescimo,
+			StatusPagamentoFinanceiro statusPagamentoFinanceiro, TipoDirecaoFinanceiro tipoDirecaoFinanceiro,
+			String observacao, boolean excluido, TipoPagamentoFinanceiro tipoPagamentoFinanceiro,
+			List<Financeiro> financeirosRelacionados) {
+		super();
+		this.notaCabecalho = notaCabecalho;
+		this.atribuicao = atribuicao;
+		this.vencimento = vencimento;
+		this.valor = valor;
+		this.codBarras = codBarras;
+		this.desconto = desconto;
+		this.acrescimo = acrescimo;
+		this.statusPagamentoFinanceiro = statusPagamentoFinanceiro;
+		this.tipoDirecaoFinanceiro = tipoDirecaoFinanceiro;
+		this.observacao = observacao;
+		this.excluido = excluido;
+		this.tipoPagamentoFinanceiro = tipoPagamentoFinanceiro;
+		this.financeirosRelacionados = financeirosRelacionados;
+	}
+
+	public BigDecimal getTotalLiquido() {
+		return valor.add(acrescimo).subtract(desconto);
+	}
 
 	public int getCodigo() {
 		return codigo;
@@ -144,6 +180,14 @@ public class Financeiro {
 
 	public void setTipoPagamentoFinanceiro(TipoPagamentoFinanceiro tipoPagamentoFinanceiro) {
 		this.tipoPagamentoFinanceiro = tipoPagamentoFinanceiro;
+	}
+
+	public List<Financeiro> getFinanceirosRelacionados() {
+		return financeirosRelacionados;
+	}
+
+	public void setFinanceirosRelacionados(List<Financeiro> financeirosRelacionados) {
+		this.financeirosRelacionados = financeirosRelacionados;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class CEST implements Serializable {
@@ -17,6 +18,7 @@ public class CEST implements Serializable {
 	@SequenceGenerator(name = "cest_sequence", sequenceName = "cest_sequence")
 	private int codigo;
 	private String cest;
+	@NotBlank(message = "Descrição não pode ser em branco")
 	private String descricao;
 
 	public int getCodigo() {
