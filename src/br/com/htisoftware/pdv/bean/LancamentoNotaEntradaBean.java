@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -15,8 +16,8 @@ import br.com.htisoftware.pdv.enums.TipoMovimentacaoEstoque;
 import br.com.htisoftware.pdv.enums.TipoNota;
 import br.com.htisoftware.pdv.modelo.CFOP;
 import br.com.htisoftware.pdv.modelo.Cliente;
-import br.com.htisoftware.pdv.modelo.NotaCabecalho;
 import br.com.htisoftware.pdv.modelo.Financeiro;
+import br.com.htisoftware.pdv.modelo.NotaCabecalho;
 import br.com.htisoftware.pdv.modelo.NotaItem;
 import br.com.htisoftware.pdv.modelo.Produto;
 import br.com.htisoftware.pdv.service.CfopService;
@@ -38,10 +39,17 @@ public class LancamentoNotaEntradaBean implements Serializable {
 	List<CFOP> cfops;
 	@Inject
 	CfopService cfopService;
+	Boolean mostraItens = true;
 
 	@PostConstruct
 	private void init() {
 		cfops = cfopService.findAll();
+		mostraItens = (Boolean) FacesContext.getCurrentInstance().getExternalContext().getApplicationMap()
+				.get("mostraItens");
+		FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().remove("mostraItens");
+		if (mostraItens == null) {
+			mostraItens = true;
+		}
 	}
 
 	public void incluirItem() {
@@ -104,5 +112,13 @@ public class LancamentoNotaEntradaBean implements Serializable {
 
 	public void setNotaItem(NotaItem notaItem) {
 		this.notaItem = notaItem;
+	}
+
+	public boolean isMostraItens() {
+		return mostraItens;
+	}
+
+	public void setMostraItens(boolean mostraItens) {
+		this.mostraItens = mostraItens;
 	}
 }

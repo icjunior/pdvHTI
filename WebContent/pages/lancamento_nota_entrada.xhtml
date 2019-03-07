@@ -33,7 +33,8 @@
 										<p:column>
 											<p:selectOneMenu id="tipoNotaList" style="width:125px"
 												required="true"
-												requiredMessage="Tipo de nota deve ser selecionado">
+												requiredMessage="Tipo de nota deve ser selecionado"
+												value="#{lancamentoNotaEntradaBean.notaCabecalho.tipoNota}">
 												<f:selectItem itemLabel="Selecione um"
 													noSelectionOption="true" itemDisabled="true" />
 												<f:selectItems
@@ -101,7 +102,8 @@
 								</p:panelGrid>
 							</p:fieldset>
 							<br />
-							<p:fieldset legend="Itens" toggleable="true">
+							<p:fieldset legend="Itens" toggleable="true"
+								rendered="#{lancamentoNotaEntradaBean.mostraItens}">
 								<p:dataTable id="itensDT"
 									value="#{lancamentoNotaEntradaBean.notaCabecalho.itens}"
 									var="item" emptyMessage="Nenhum item lançado" scrollable="true"

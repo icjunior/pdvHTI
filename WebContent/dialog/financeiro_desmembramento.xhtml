@@ -87,8 +87,7 @@
 					</f:facet>
 					<f:facet name="input">
 						<p:calendar value="#{desmembramento.vencimento}"
-							pattern="dd/MM/yyyy" converter="#{dateConverter}" required="true"
-							requiredMessage="Vencimento deve ser informado" />
+							pattern="dd/MM/yyyy" converter="#{dateConverter}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -102,8 +101,7 @@
 					</f:facet>
 					<f:facet name="input">
 						<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
-							value="#{desmembramento.valor}" style="style:60%" required="true"
-							requiredMessage="Valor deve ser informado" />
+							value="#{desmembramento.valor}" style="style:60%" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -115,7 +113,7 @@
 		</p:dataTable>
 		<br />
 		<p:commandButton value="Salvar"
-			actionListener="#{financeiroBean.desmembrar}" update="growl"
+			actionListener="#{financeiroBean.desmembrar}" update="growl, desmembramentosDT"
 			validateClient="true" />
 		<p:commandButton value="Fechar"
 			onclick="PF('financeiroDesmembramentoDialog').hide()" />

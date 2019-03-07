@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="financeiroDocumentosRelacionados" modal="true"
+	resizable="false" header="Relação de documentos relacionados"
+	closable="true" closeOnEscape="true" width="80%" height="80%">
+	<h:form id="formDocumentosRelacionados">
+		<p:growl id="growl" sticky="true" />
+		<p:panel id="pnFinanceiroDocumentoRelacionados">
+			<p:dataTable
+				value="#{financeiroDetalheBean.financeiro.financeirosRelacionados}"
+				var="financeiro" emptyMessage="Nenhum documento relacionado"
+				scrollable="true">
+				<p:column headerText="Documento">
+					<h:outputLabel value="#{financeiro.codigo}" />
+				</p:column>
+				<p:column headerText="NF">
+					<h:outputLabel value="#{financeiro.notaCabecalho.numero}" />
+				</p:column>
+				<p:column headerText="Tipo doc.">
+					<h:outputLabel value="#{financeiro.tipoDirecaoFinanceiro}" />
+				</p:column>
+				<p:column headerText="Status">
+					<h:outputLabel value="#{financeiro.statusPagamentoFinanceiro}" />
+				</p:column>
+				<p:column headerText="Vencimento">
+					<h:outputLabel value="#{financeiro.vencimento.time}">
+						<f:convertDateTime pattern="dd/MM/yyyy" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputLabel value="#{financeiro.valor}">
+						<f:convertNumber currencySymbol="R$" type="currency"
+							locale="pt_BR" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Acréscimo">
+					<h:outputLabel value="#{financeiro.acrescimo}">
+						<f:convertNumber currencySymbol="R$" type="currency"
+							locale="pt_BR" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Desconto">
+					<h:outputLabel value="#{financeiro.desconto}">
+						<f:convertNumber currencySymbol="R$" type="currency"
+							locale="pt_BR" />
+					</h:outputLabel>
+				</p:column>
+				<p:column headerText="Atribuição">
+					<h:outputLabel value="#{financeiro.atribuicao}" />
+				</p:column>
+			</p:dataTable>
+			<br />
+			<br />
+			<p:commandButton value="Fechar"
+				onclick="PF('financeiroDocumentosRelacionados').hide()" />
+		</p:panel>
+	</h:form>
+</p:dialog>
+</html>

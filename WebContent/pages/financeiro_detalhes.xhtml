@@ -1,0 +1,225 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template_erp.xhtml">
+
+	<ui:define name="subheader">
+		Detalhes de lançamento financeiro
+    </ui:define>
+
+	<ui:define name="content">
+		<ui:include src="/dialog/nota_detalhe_dialog.xhtml" />
+		<ui:include src="/dialog/financeiro_documentos_relacionados.xhtml" />
+		<div class="Container100">
+			<div class="ContainerIndent">
+				<div class="Card ShadowEffect TexAlLeft">
+					<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%">
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Tipo de documento:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Status:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Documento:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.tipoDirecaoFinanceiro}"
+									readonly="true" />
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.statusPagamentoFinanceiro}"
+									readonly="true" />
+							</p:column>
+							<p:column>
+								<p:inputText value="#{financeiroDetalheBean.financeiro.codigo}"
+									readonly="true" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column colspan="2">
+								<h:outputLabel value="Fornecedor:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Nota:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Série:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.notaCabecalho.cliente}"
+									readonly="true" style="width:80%" />
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.notaCabecalho.numero}"
+									readonly="true" />
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.notaCabecalho.serie}"
+									readonly="true" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Emissão:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Lançamento:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Inclusão:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.notaCabecalho.emissao.time}"
+									readonly="true">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:inputText>
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.notaCabecalho.lancamento.time}"
+									readonly="true">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:inputText>
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.notaCabecalho.inclusao.time}"
+									readonly="true">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+								</p:inputText>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Vencimento:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.vencimento.time}"
+									readonly="true">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</p:inputText>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Vlr. título:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Acréscimo:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Desconto:" />
+							</p:column>
+							<p:column>
+								<h:outputLabel value="Vlr. líquido:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:inputText value="#{financeiroDetalheBean.financeiro.valor}"
+									readonly="true">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</p:inputText>
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.acrescimo}"
+									readonly="true">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</p:inputText>
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.desconto}"
+									readonly="true">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</p:inputText>
+							</p:column>
+							<p:column>
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.totalLiquido}"
+									readonly="true">
+									<f:convertNumber currencySymbol="R$" type="currency"
+										locale="pt_BR" />
+								</p:inputText>
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column colspan="4">
+								<h:outputLabel value="Atribuição:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="4">
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.atribuicao}"
+									readonly="true" style="width:50%" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Cód. barras:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="4">
+								<p:inputText
+									value="#{financeiroDetalheBean.financeiro.codBarras}"
+									readonly="true" style="width:50%" />
+							</p:column>
+						</p:row>
+
+						<p:row>
+							<p:column>
+								<h:outputLabel value="Observação:" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="4">
+								<p:inputTextarea
+									value="#{financeiroDetalheBean.financeiro.observacao}"
+									cols="50" rows="6" style="width:50%" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<br /> <br />
+					<p:commandButton value="Nota de origem"
+						update=":formNotaDetalhe:pnNotaDetalhe"
+						onclick="PF('notaDetalheDialog').show()" />
+					<p:spacer width="10" />
+					<p:commandButton value="Documentos relacionados"
+						onclick="PF('financeiroDocumentosRelacionados').show()"
+						update=":formDocumentosRelacionados:pnFinanceiroDocumentoRelacionados" />
+				</div>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>

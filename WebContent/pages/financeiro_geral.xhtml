@@ -11,6 +11,7 @@
 
 	<ui:define name="content">
 		<ui:include src="/dialog/financeiro_desmembramento.xhtml" />
+		<ui:include src="/dialog/financeiro_alteracao_massa.xhtml" />
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect TexAlLeft">
@@ -154,23 +155,45 @@
 								</p:column>
 							</p:dataTable>
 							<br />
-							<p:menuButton value="Opções" id="opcoes">
-								<p:menuitem value="Detalhes" />
+							<p:menuButton value="Opções" id="opcoes"
+								disabled="#{financeiroBean.financeirosSelecionados.size() lt 1 || financeiroBean.financeirosSelecionados == null}">
+								<p:menuitem value="Detalhes"
+									disabled="#{financeiroBean.financeirosSelecionados.size() != 1}"
+									action="#{financeiroBean.detalhes}" />
 								<p:menuitem value="Desmembrar"
 									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}"
 									onclick="PF('financeiroDesmembramentoDialog').show()"
 									update=":formDesmembramentoFinanceiro:financeiroDL" />
 								<p:menuitem value="Agrupar"
-									disabled="#{financeiroBean.financeirosSelecionados.size() != 1}" />
+									disabled="#{financeiroBean.financeirosSelecionados.size() le 1 || financeiroBean.financeirosSelecionados == null}" />
 								<p:menuitem value="Gerar arquivo" />
 								<p:menuitem value="Excluir"
-									actionListener="#{financeiroBean.excluir}" update="growl" />
+									actionListener="#{financeiroBean.excluir}" update="growl">
+									<p:confirm header="Confirmação"
+										message="Deseja realmente excluir os títulos selecionados?"
+										icon="pi pi-exclamation-triangle" />
+								</p:menuitem>
 								<p:menuitem value="Baixar"
-									actionListener="#{financeiroBean.baixar}" update="growl" />
-								<p:menuitem value="Editar" />
-								<p:menuitem value="Edição em massa" />
-								<p:menuitem value="Novo lançamento" />
+									actionListener="#{financeiroBean.baixar}" update="growl">
+									<p:confirm header="Confirmação"
+										message="Deseja realmente baixar os títulos selecionados?"
+										icon="pi pi-exclamation-triangle" />
+								</p:menuitem>
+								<p:menuitem value="Editar"
+									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}" />
+								<p:menuitem value="Edição em massa"
+									onclick="PF('financeiroEdicaoMassaDialog').show()"
+									disabled="#{financeiroBean.financeirosSelecionados.size() le 1 || financeiroBean.financeirosSelecionados == null}" />
+								<p:menuitem value="Novo lançamento"
+									action="#{financeiroBean.novoLancamento}" />
 							</p:menuButton>
+							<p:confirmDialog global="true" showEffect="fade"
+								hideEffect="fade">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+							</p:confirmDialog>
 							<br />
 							<br />
 							<p:panel>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -13,6 +14,7 @@ import javax.inject.Named;
 import org.primefaces.event.SelectEvent;
 
 import br.com.htisoftware.pdv.dto.FinanceiroDTO;
+import br.com.htisoftware.pdv.dto.FinanceiroMassaDTO;
 import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoMovimentacaoEstoque;
 import br.com.htisoftware.pdv.modelo.Cliente;
@@ -34,6 +36,8 @@ public class FinanceiroBean implements Serializable {
 	List<Financeiro> financeirosSelecionados;
 	List<Financeiro> financeiroDesmembrado;
 	private int numeroParcelasDesmembramento;
+	@Inject
+	FinanceiroMassaDTO financeiroMassa;
 
 	public void buscar() {
 		financeiros = financeiroService.buscar(financeiroDTO);
@@ -51,6 +55,17 @@ public class FinanceiroBean implements Serializable {
 		financeiroService.baixar(financeirosSelecionados);
 	}
 
+	public String novoLancamento() {
+		FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("mostraItens", false);
+		return "/pages/lancamento_nota_entrada?faces-redirect=true";
+	}
+
+	public String detalhes() {
+		FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().put("financeiro",
+				financeirosSelecionados.get(0));
+		return "/pages/financeiro_detalhes?faces-redirect=true";
+	}
+
 	public void desmembrar() {
 		financeiroService.desmembrar(financeiroDesmembrado, financeirosSelecionados);
 		financeiroDesmembrado = new ArrayList<>();
@@ -59,6 +74,10 @@ public class FinanceiroBean implements Serializable {
 	public void calculaDesmembramento() {
 		financeiroDesmembrado = financeiroService.calculaDesmembramento(financeirosSelecionados,
 				numeroParcelasDesmembramento);
+	}
+
+	public void edicaoMassa() {
+		financeiroService.edicaoMassa(financeiroMassa, financeirosSelecionados);
 	}
 
 	public void clienteSelecionado(SelectEvent event) {
@@ -132,5 +151,13 @@ public class FinanceiroBean implements Serializable {
 
 	public void setFinanceiroDesmembrado(List<Financeiro> financeiroDesmembrado) {
 		this.financeiroDesmembrado = financeiroDesmembrado;
+	}
+
+	public FinanceiroMassaDTO getFinanceiroMassa() {
+		return financeiroMassa;
+	}
+
+	public void setFinanceiroMassa(FinanceiroMassaDTO financeiroMassa) {
+		this.financeiroMassa = financeiroMassa;
 	}
 }

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="notaDetalheDialog" modal="true" resizable="false"
+	header="Detalhe de nota fiscal" closable="true" closeOnEscape="true"
+	width="80%" height="80%">
+	<h:form id="formNotaDetalhe">
+		<p:growl id="growl" sticky="true" />
+		<p:panel id="pnNotaDetalhe">
+			<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%">
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Tipo NF:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Documento:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Inclusão:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:inputText readonly="true"
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.tipoNota}" />
+					</p:column>
+					<p:column>
+						<p:inputText readonly="true"
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.codigo}" />
+					</p:column>
+					<p:column>
+						<p:inputText readonly="true"
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.inclusao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+						</p:inputText>
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Fornecedor:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="NF:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Série:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:inputText readonly="true"
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.cliente}" />
+					</p:column>
+					<p:column>
+						<p:inputText readonly="true"
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.numero}" />
+					</p:column>
+					<p:column>
+						<p:inputText readonly="true"
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.serie}" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Emissão:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Lançamento:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:inputText
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.emissao.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputText>
+					</p:column>
+					<p:column>
+						<p:inputText
+							value="#{financeiroDetalheBean.financeiro.notaCabecalho.lancamento.time}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</p:inputText>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<br />
+			<br />
+			<p:dataTable
+				value="#{financeiroDetalheBean.financeiro.notaCabecalho.itens}"
+				var="item" emptyMessage="Nenhum item lançado" scrollable="true">
+				<p:column headerText="CFOP">
+					<h:outputLabel value="#{item.cfop}" />
+				</p:column>
+				<p:column headerText="EAN">
+					<h:outputLabel value="#{item.produto.ean}" />
+				</p:column>
+				<p:column headerText="Descrição">
+					<h:outputLabel value="#{item.produto.descricao}" />
+				</p:column>
+				<p:column headerText="Emb.">
+					<h:outputLabel value="#{item.embalagem}" />
+				</p:column>
+				<p:column headerText="Qtd.">
+					<h:outputLabel value="#{item.quantidade}" />
+				</p:column>
+				<p:column headerText="Vlr.">
+					<h:outputLabel value="#{item.valor}" />
+				</p:column>
+				<p:column headerText="Desc.">
+					<h:outputLabel value="#{item.desconto}" />
+				</p:column>
+			</p:dataTable>
+			<br />
+			<br />
+			<p:commandButton value="Fechar"
+				onclick="PF('notaDetalheDialog').hide()" />
+		</p:panel>
+	</h:form>
+</p:dialog>
+</html>

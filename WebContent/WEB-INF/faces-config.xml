@@ -15,4 +15,9 @@
 		<validator-id>cpfcnpjValidator</validator-id>
 		<validator-class>br.com.htisoftware.pdv.validator.NFPValidator</validator-class>
 	</validator>
+	
+	<validator>
+		<validator-id>dateValidator</validator-id>
+		<validator-class>br.com.htisoftware.pdv.validator.DateValidator</validator-class>
+	</validator>
 </faces-config>

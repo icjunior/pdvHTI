@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="financeiroEdicaoMassaDialog" modal="true"
+	resizable="false" header="Edição de dados em massa" closable="true"
+	closeOnEscape="true" width="80%">
+	<h:form id="formFinanceiroEdicaoMassa">
+		<p:growl id="growl" sticky="true" />
+		<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%">
+			<p:row>
+				<p:column>
+					<h:outputLabel value="Atribuição:" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="4">
+					<p:inputText style="width:80%"
+						value="#{financeiroBean.financeiroMassa.atribuicao}" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<h:outputLabel value="Vencimento:" />
+				</p:column>
+				<p:column>
+					<h:outputLabel value="Desconto:" />
+				</p:column>
+				<p:column>
+					<h:outputLabel value="Acréscimo:" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:calendar value="#{financeiroBean.financeiroMassa.vencimento}"
+						converter="#{dateConverter}" pattern="dd/MM/yyyy" />
+				</p:column>
+				<p:column>
+					<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
+						value="#{financeiroBean.financeiroMassa.desconto}" />
+				</p:column>
+				<p:column>
+					<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
+						value="#{financeiroBean.financeiroMassa.acrescimo}" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column>
+					<h:outputLabel value="Observação" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="4">
+					<p:inputTextarea rows="5" cols="100"
+						value="#{financeiroBean.financeiroMassa.observacao}" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+		<br />
+		<p:commandButton value="Salvar" update="growl"
+			actionListener="#{financeiroBean.edicaoMassa}">
+			<p:confirm header="Confirmação"
+				message="Deseja executar a alteração em massa?"
+				icon="pi pi-exclamation-triangle" />
+		</p:commandButton>
+		<p:commandButton value="Fechar"
+			onclick="PF('financeiroEdicaoMassaDialog').hide()" />
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+	</h:form>
+</p:dialog>
+</html>

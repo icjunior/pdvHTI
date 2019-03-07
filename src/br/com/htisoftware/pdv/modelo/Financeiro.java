@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import br.com.htisoftware.pdv.dto.FinanceiroMassaDTO;
 import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoDirecaoFinanceiro;
 
@@ -255,5 +256,23 @@ public class Financeiro {
 		} else if (!vencimento.equals(other.vencimento))
 			return false;
 		return true;
+	}
+
+	public void edicaoMassa(FinanceiroMassaDTO financeiroMassa) {
+		if (financeiroMassa.getAtribuicao() != "") {
+			this.atribuicao = financeiroMassa.getAtribuicao();
+		}
+		if (financeiroMassa.getObservacao() != "") {
+			this.observacao = financeiroMassa.getObservacao();
+		}
+		if (financeiroMassa.getVencimento() != null) {
+			this.vencimento = financeiroMassa.getVencimento();
+		}
+		if (financeiroMassa.getAcrescimo() != null) {
+			this.acrescimo = financeiroMassa.getAcrescimo();
+		}
+		if (financeiroMassa.getDesconto() != null) {
+			this.desconto = financeiroMassa.getDesconto();
+		}
 	}
 }

@@ -7,6 +7,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import br.com.htisoftware.pdv.enums.TipoNota;
 
 @Entity
 public class NotaCabecalho implements Serializable {
@@ -39,6 +43,8 @@ public class NotaCabecalho implements Serializable {
 	List<NotaItem> itens;
 	@OneToMany(mappedBy = "notaCabecalho")
 	List<Financeiro> financeiros;
+	@Enumerated(EnumType.STRING)
+	TipoNota tipoNota;
 
 	public void adicionaItem(NotaItem item) {
 		if (itens == null) {
@@ -121,6 +127,14 @@ public class NotaCabecalho implements Serializable {
 
 	public void setItens(List<NotaItem> itens) {
 		this.itens = itens;
+	}
+
+	public TipoNota getTipoNota() {
+		return tipoNota;
+	}
+
+	public void setTipoNota(TipoNota tipoNota) {
+		this.tipoNota = tipoNota;
 	}
 
 	@Override
