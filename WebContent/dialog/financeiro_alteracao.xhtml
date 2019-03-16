@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="financeiroEdicaoIndividualDialog" modal="true"
+	resizable="false" header="Edição de dados - financeiro" closable="true"
+	closeOnEscape="true" width="80%" height="85vh">
+	<h:form id="formFinanceiroEdicaoIndividual">
+		<p:growl id="growl" sticky="true" />
+		<p:dataList value="#{financeiroBean.financeirosSelecionados}"
+			var="financeiro" type="none">
+			<p:panel>
+				<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
+					id="pgFinanceiroEdicaoIndividualCabecalho">
+					<p:row>
+						<p:column>
+							<h:outputLabel value="Fornecedor:" />
+						</p:column>
+						<p:column>
+							<h:outputLabel value="NF:" />
+						</p:column>
+						<p:column>
+							<h:outputLabel value="Série:" />
+						</p:column>
+						<p:column>
+							<h:outputLabel value="Valor original:" />
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column>
+							<h:outputLabel value="#{financeiro.notaCabecalho.cliente.nome}" />
+						</p:column>
+						<p:column>
+							<h:outputLabel value="1222" />
+						</p:column>
+						<p:column>
+							<h:outputLabel value="1" />
+						</p:column>
+						<p:column>
+							<h:outputLabel value="R$ 100,00" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+			</p:panel>
+			<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
+				id="pgFinanceiroEdicaoIndividual">
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Valor:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Desconto:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Acréscimo:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Líquido:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:inputText />
+					</p:column>
+					<p:column>
+						<p:inputText />
+					</p:column>
+					<p:column>
+						<p:inputText />
+					</p:column>
+					<p:column>
+						<p:inputText />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Vencimento:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Referência:" />
+					</p:column>
+					<p:column colspan="2">
+						<h:outputLabel value="Atribuição:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:calendar />
+					</p:column>
+					<p:column>
+						<p:inputText />
+					</p:column>
+					<p:column colspan="2">
+						<p:inputText style="width:85%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="4">
+						<h:outputLabel value="Cód. barras:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="4">
+						<p:inputText style="width:80%" />
+					</p:column>
+				</p:row>
+
+				<p:row>
+					<p:column colspan="4">
+						<h:outputLabel value="Observação:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column colspan="4">
+						<p:inputTextarea rows="6" cols="20" style="width:80%" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+		</p:dataList>
+		<p:commandButton value="Salvar" update="growl"
+			actionListener="#{financeiroBean.edicaoMassa}">
+			<p:confirm header="Confirmação"
+				message="Deseja executar a alteração do registro?"
+				icon="pi pi-exclamation-triangle" />
+		</p:commandButton>
+		<p:commandButton value="Fechar"
+			onclick="PF('financeiroEdicaoMassaDialog').hide()" />
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+	</h:form>
+</p:dialog>
+</html>

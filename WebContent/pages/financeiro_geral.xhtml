@@ -12,6 +12,7 @@
 	<ui:define name="content">
 		<ui:include src="/dialog/financeiro_desmembramento.xhtml" />
 		<ui:include src="/dialog/financeiro_alteracao_massa.xhtml" />
+		<ui:include src="/dialog/financeiro_alteracao.xhtml" />
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect TexAlLeft">
@@ -180,7 +181,8 @@
 										icon="pi pi-exclamation-triangle" />
 								</p:menuitem>
 								<p:menuitem value="Editar"
-									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}" />
+									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}"
+									onclick="PF('financeiroEdicaoIndividualDialog').show()" />
 								<p:menuitem value="Edição em massa"
 									onclick="PF('financeiroEdicaoMassaDialog').show()"
 									disabled="#{financeiroBean.financeirosSelecionados.size() le 1 || financeiroBean.financeirosSelecionados == null}" />
