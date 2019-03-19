@@ -93,7 +93,7 @@ public class ERPUtils {
 					valorParcela, financeiro.getCodBarras(), BigDecimal.ZERO, BigDecimal.ZERO,
 					financeiro.getStatusPagamentoFinanceiro(), financeiro.getTipoDirecaoFinanceiro(),
 					financeiro.getObservacao(), financeiro.isExcluido(), financeiro.getTipoPagamentoFinanceiro(),
-					financeirosRelacionados));
+					financeirosRelacionados, financeiro.getReferencia()));
 		}
 		return financeiroDesmembrado;
 	}

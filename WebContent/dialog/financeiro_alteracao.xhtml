@@ -10,41 +10,42 @@
 	closeOnEscape="true" width="80%" height="85vh">
 	<h:form id="formFinanceiroEdicaoIndividual">
 		<p:growl id="growl" sticky="true" />
-		<p:dataList value="#{financeiroBean.financeirosSelecionados}"
-			var="financeiro" type="none">
-			<p:panel>
-				<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
-					id="pgFinanceiroEdicaoIndividualCabecalho">
-					<p:row>
-						<p:column>
-							<h:outputLabel value="Fornecedor:" />
-						</p:column>
-						<p:column>
-							<h:outputLabel value="NF:" />
-						</p:column>
-						<p:column>
-							<h:outputLabel value="Série:" />
-						</p:column>
-						<p:column>
-							<h:outputLabel value="Valor original:" />
-						</p:column>
-					</p:row>
-					<p:row>
-						<p:column>
-							<h:outputLabel value="#{financeiro.notaCabecalho.cliente.nome}" />
-						</p:column>
-						<p:column>
-							<h:outputLabel value="1222" />
-						</p:column>
-						<p:column>
-							<h:outputLabel value="1" />
-						</p:column>
-						<p:column>
-							<h:outputLabel value="R$ 100,00" />
-						</p:column>
-					</p:row>
-				</p:panelGrid>
-			</p:panel>
+		<p:dataList value="#{financeiroBean.financeirosSelecionados.get(0)}"
+			var="financeiro" itemType="none" id="financeiroEdicaoDL">
+			<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
+				id="pgFinanceiroEdicaoIndividualCabecalho">
+				<p:row>
+					<p:column>
+						<h:outputLabel value="Fornecedor:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="NF:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Série:" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="Valor original:" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.cliente.nome}" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.numero}" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.serie}" />
+					</p:column>
+					<p:column>
+						<h:outputLabel value="#{financeiro.notaCabecalho.valor}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</h:outputLabel>
+					</p:column>
+				</p:row>
+			</p:panelGrid>
 			<p:panelGrid styleClass="ui-panelgrid-blank" style="width:100%"
 				id="pgFinanceiroEdicaoIndividual">
 				<p:row>
@@ -63,16 +64,23 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:inputText />
+						<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
+							value="#{financeiro.valor}" style="style:60%" required="true"
+							requiredMessage="Valor bruto deve ser informado" />
 					</p:column>
 					<p:column>
-						<p:inputText />
+						<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
+							value="#{financeiro.desconto}" style="style:60%" />
 					</p:column>
 					<p:column>
-						<p:inputText />
+						<p:inputNumber decimalPlaces="2" decimalSeparator="," symbol="R$ "
+							value="#{financeiro.acrescimo}" style="style:60%" />
 					</p:column>
 					<p:column>
-						<p:inputText />
+						<p:outputLabel value="#{financeiro.totalLiquido}">
+							<f:convertNumber currencySymbol="R$" type="currency"
+								locale="pt_BR" />
+						</p:outputLabel>
 					</p:column>
 				</p:row>
 
@@ -89,13 +97,15 @@
 				</p:row>
 				<p:row>
 					<p:column>
-						<p:calendar />
+						<p:calendar value="#{financeiro.vencimento.time}"
+							pattern="dd/MM/yyyy" required="true"
+							requiredMessage="Vencimento deve ser informado" />
 					</p:column>
 					<p:column>
-						<p:inputText />
+						<p:inputText value="#{financeiro.referencia}" />
 					</p:column>
 					<p:column colspan="2">
-						<p:inputText style="width:85%" />
+						<p:inputText style="width:85%" value="#{financeiro.atribuicao}" />
 					</p:column>
 				</p:row>
 
@@ -106,7 +116,7 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="4">
-						<p:inputText style="width:80%" />
+						<p:inputText style="width:80%" value="#{financeiro.codBarras}" />
 					</p:column>
 				</p:row>
 
@@ -117,19 +127,21 @@
 				</p:row>
 				<p:row>
 					<p:column colspan="4">
-						<p:inputTextarea rows="6" cols="20" style="width:80%" />
+						<p:inputTextarea rows="6" cols="20" style="width:80%"
+							value="#{financeiro.observacao}" />
 					</p:column>
 				</p:row>
 			</p:panelGrid>
 		</p:dataList>
+		<br />
 		<p:commandButton value="Salvar" update="growl"
-			actionListener="#{financeiroBean.edicaoMassa}">
+			actionListener="#{financeiroBean.edicaoIndividual}">
 			<p:confirm header="Confirmação"
 				message="Deseja executar a alteração do registro?"
 				icon="pi pi-exclamation-triangle" />
 		</p:commandButton>
 		<p:commandButton value="Fechar"
-			onclick="PF('financeiroEdicaoMassaDialog').hide()" />
+			onclick="PF('financeiroEdicaoIndividualDialog').hide()" />
 		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
 			<p:commandButton value="Sim" type="button"
 				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />

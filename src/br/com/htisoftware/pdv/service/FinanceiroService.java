@@ -64,4 +64,10 @@ public class FinanceiroService implements Serializable {
 		PdvUtils.closeDialog("financeiroEdicaoMassaDialog");
 		PdvUtils.mensagem(FacesMessage.SEVERITY_INFO, "Alteração em massa", "Registros alterados com sucesso.");
 	}
+
+	public void edicaoIndividual(List<Financeiro> financeiros) {
+		dao.alterar(financeiros.get(0));
+		PdvUtils.closeDialog("financeiroEdicaoIndividualDialog");
+		PdvUtils.mensagem(FacesMessage.SEVERITY_INFO, "Alteração", "Registro alterado com sucesso.");
+	}
 }

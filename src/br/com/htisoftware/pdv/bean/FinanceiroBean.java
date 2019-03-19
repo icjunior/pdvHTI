@@ -79,6 +79,10 @@ public class FinanceiroBean implements Serializable {
 	public void edicaoMassa() {
 		financeiroService.edicaoMassa(financeiroMassa, financeirosSelecionados);
 	}
+	
+	public void edicaoIndividual() {
+		financeiroService.edicaoIndividual(financeirosSelecionados);
+	}
 
 	public void clienteSelecionado(SelectEvent event) {
 		Cliente cliente = (Cliente) event.getObject();

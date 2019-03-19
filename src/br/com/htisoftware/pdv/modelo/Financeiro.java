@@ -49,6 +49,7 @@ public class Financeiro {
 	TipoPagamentoFinanceiro tipoPagamentoFinanceiro;
 	@ManyToMany
 	List<Financeiro> financeirosRelacionados;
+	private String referencia;
 
 	public Financeiro() {
 
@@ -58,7 +59,7 @@ public class Financeiro {
 			String codBarras, BigDecimal desconto, BigDecimal acrescimo,
 			StatusPagamentoFinanceiro statusPagamentoFinanceiro, TipoDirecaoFinanceiro tipoDirecaoFinanceiro,
 			String observacao, boolean excluido, TipoPagamentoFinanceiro tipoPagamentoFinanceiro,
-			List<Financeiro> financeirosRelacionados) {
+			List<Financeiro> financeirosRelacionados, String referencia) {
 		super();
 		this.notaCabecalho = notaCabecalho;
 		this.atribuicao = atribuicao;
@@ -73,6 +74,7 @@ public class Financeiro {
 		this.excluido = excluido;
 		this.tipoPagamentoFinanceiro = tipoPagamentoFinanceiro;
 		this.financeirosRelacionados = financeirosRelacionados;
+		this.referencia = referencia;
 	}
 
 	public BigDecimal getTotalLiquido() {
@@ -189,6 +191,14 @@ public class Financeiro {
 
 	public void setFinanceirosRelacionados(List<Financeiro> financeirosRelacionados) {
 		this.financeirosRelacionados = financeirosRelacionados;
+	}
+
+	public String getReferencia() {
+		return referencia;
+	}
+
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
 	}
 
 	@Override

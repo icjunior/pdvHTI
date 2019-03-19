@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<p:dialog widgetVar="financeiroAgrupamentoDialog" modal="true"
+	resizable="false" header="Edição de dados - financeiro" closable="true"
+	closeOnEscape="true" width="80%" height="85vh">
+	<h:form id="formFinanceiroEdicaoIndividual">
+		<p:growl id="growl" sticky="true" />
+		
+		
+		<br />
+		<p:commandButton value="Salvar" update="growl"
+			actionListener="#{financeiroBean.agrupar}">
+			<p:confirm header="Confirmação"
+				message="Deseja executar o agrupamento dos registros?"
+				icon="pi pi-exclamation-triangle" />
+		</p:commandButton>
+		<p:commandButton value="Fechar"
+			onclick="PF('financeiroAgrupamentoDialog').hide()" />
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+			<p:commandButton value="Sim" type="button"
+				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+			<p:commandButton value="Não" type="button"
+				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+		</p:confirmDialog>
+	</h:form>
+</p:dialog>
+</html>

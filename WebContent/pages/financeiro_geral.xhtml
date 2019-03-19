@@ -175,17 +175,21 @@
 										icon="pi pi-exclamation-triangle" />
 								</p:menuitem>
 								<p:menuitem value="Baixar"
-									actionListener="#{financeiroBean.baixar}" update="growl">
+									actionListener="#{financeiroBean.baixar}" update="growl"
+									id="BaixarTitulo">
 									<p:confirm header="Confirmação"
 										message="Deseja realmente baixar os títulos selecionados?"
 										icon="pi pi-exclamation-triangle" />
 								</p:menuitem>
 								<p:menuitem value="Editar"
 									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}"
-									onclick="PF('financeiroEdicaoIndividualDialog').show()" />
+									onclick="PF('financeiroEdicaoIndividualDialog').show()"
+									update=":formFinanceiroEdicaoIndividual:financeiroEdicaoDL"
+									id="btnEditarIndividual" />
 								<p:menuitem value="Edição em massa"
 									onclick="PF('financeiroEdicaoMassaDialog').show()"
-									disabled="#{financeiroBean.financeirosSelecionados.size() le 1 || financeiroBean.financeirosSelecionados == null}" />
+									disabled="#{financeiroBean.financeirosSelecionados.size() le 1 || financeiroBean.financeirosSelecionados == null}"
+									id="btnEditarEmMassa" />
 								<p:menuitem value="Novo lançamento"
 									action="#{financeiroBean.novoLancamento}" />
 							</p:menuButton>
