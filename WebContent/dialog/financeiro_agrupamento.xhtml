@@ -6,12 +6,84 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <p:dialog widgetVar="financeiroAgrupamentoDialog" modal="true"
-	resizable="false" header="Edição de dados - financeiro" closable="true"
+	resizable="false" header="Agrupamento de títulos" closable="true"
 	closeOnEscape="true" width="80%" height="85vh">
-	<h:form id="formFinanceiroEdicaoIndividual">
+	<h:form id="formFinanceiroAgrupamento">
+		<p:focus context="formFinanceiroAgrupamento" />
 		<p:growl id="growl" sticky="true" />
-		
-		
+
+		<p:outputLabel value="Fornecedor: " />
+		<p:outputLabel
+			value="#{financeiroBean.financeirosSelecionados.get(0).notaCabecalho.cliente.nome}" />
+
+		<p:fieldset legend="Relação de notas à serem agrupadas"
+			toggleable="true" collapsed="true">
+			<p:dataTable value="#{financeiroBean.financeirosSelecionados}"
+				var="financeiro" emptyMessage="Nenhuma nota selecionada">
+				<p:column headerText="NF">
+					<h:outputLabel value="#{financeiro.notaCabecalho.numero}" />
+				</p:column>
+				<p:column headerText="Série">
+					<h:outputLabel value="#{financeiro.notaCabecalho.serie}" />
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputLabel value="#{financeiro.notaCabecalho.valor}" />
+				</p:column>
+			</p:dataTable>
+		</p:fieldset>
+
+		<p:panelGrid id="pgFinanceiroAgrupamento"
+			styleClass="ui-panelgrid-blank" style="width:100%">
+			<p:row>
+				<p:column>
+					<h:outputLabel value="Vencimento:" />
+				</p:column>
+				<p:column>
+					<h:outputLabel value="Referência:" />
+				</p:column>
+				<p:column>
+					<h:outputLabel value="Atribuição" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column>
+					<p:calendar pattern="dd/MM/yyyy"
+						value="#{financeiroBean.financeiroDTO.vencimento}" required="true"
+						requiredMessage="Vencimento deve ser informado"
+						converter="#{dateConverter}" />
+				</p:column>
+				<p:column>
+					<p:inputText value="#{financeiroBean.financeiroDTO.referencia}" />
+				</p:column>
+				<p:column>
+					<p:inputText value="#{financeiroBean.financeiroDTO.atribuicao}" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column colspan="3">
+					<h:outputLabel value="Cód. barras:" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="3">
+					<p:inputText value="#{financeiroBean.financeiroDTO.codBarras}"
+						style="width:80%" />
+				</p:column>
+			</p:row>
+
+			<p:row>
+				<p:column colspan="3">
+					<h:outputLabel value="Observação:" />
+				</p:column>
+			</p:row>
+			<p:row>
+				<p:column colspan="3">
+					<p:inputTextarea rows="6" cols="20" style="width:80%" />
+				</p:column>
+			</p:row>
+		</p:panelGrid>
+
 		<br />
 		<p:commandButton value="Salvar" update="growl"
 			actionListener="#{financeiroBean.agrupar}">
@@ -21,12 +93,7 @@
 		</p:commandButton>
 		<p:commandButton value="Fechar"
 			onclick="PF('financeiroAgrupamentoDialog').hide()" />
-		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-			<p:commandButton value="Sim" type="button"
-				styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-			<p:commandButton value="Não" type="button"
-				styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-		</p:confirmDialog>
+
 	</h:form>
 </p:dialog>
 </html>

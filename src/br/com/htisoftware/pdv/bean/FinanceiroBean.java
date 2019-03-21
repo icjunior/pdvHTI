@@ -71,6 +71,10 @@ public class FinanceiroBean implements Serializable {
 		financeiroDesmembrado = new ArrayList<>();
 	}
 
+	public void agrupar() {
+		financeiroService.agrupar(financeirosSelecionados, financeiroDTO);
+	}
+
 	public void calculaDesmembramento() {
 		financeiroDesmembrado = financeiroService.calculaDesmembramento(financeirosSelecionados,
 				numeroParcelasDesmembramento);
@@ -79,7 +83,7 @@ public class FinanceiroBean implements Serializable {
 	public void edicaoMassa() {
 		financeiroService.edicaoMassa(financeiroMassa, financeirosSelecionados);
 	}
-	
+
 	public void edicaoIndividual() {
 		financeiroService.edicaoIndividual(financeirosSelecionados);
 	}
@@ -91,6 +95,14 @@ public class FinanceiroBean implements Serializable {
 
 	public void excluirDesmembramento(Financeiro financeiro) {
 		financeiroDesmembrado.remove(financeiro);
+	}
+
+	public boolean getFinanceirosDisponiveisParaAgrupamento() {
+		return financeiroService.titulosDisponiveisParaAgrupamento(financeirosSelecionados);
+	}
+
+	public boolean getFinanceiroDisponivelParaDesmembramento() {
+		return financeiroService.tituloDisponivelParaDesmembramento(financeirosSelecionados);
 	}
 
 	public List<StatusPagamentoFinanceiro> getStatusFinanceiro() {

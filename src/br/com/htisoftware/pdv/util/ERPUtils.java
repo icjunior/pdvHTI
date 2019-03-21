@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.com.htisoftware.pdv.dto.FinanceiroDTO;
+import br.com.htisoftware.pdv.enums.StatusPagamentoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoCST;
+import br.com.htisoftware.pdv.enums.TipoDirecaoFinanceiro;
 import br.com.htisoftware.pdv.enums.TipoMovimentacaoEstoque;
 import br.com.htisoftware.pdv.modelo.CEST;
 import br.com.htisoftware.pdv.modelo.CFOP;
@@ -96,5 +99,22 @@ public class ERPUtils {
 					financeirosRelacionados, financeiro.getReferencia()));
 		}
 		return financeiroDesmembrado;
+	}
+
+	public static Financeiro criaAgrupamento(List<Financeiro> financeiros, FinanceiroDTO financeiroDTO) {
+		Financeiro financeiro;
+
+		BigDecimal valorTotalNotas = financeiros.stream().map(fin -> fin.getValor()).reduce(BigDecimal.ZERO,
+				BigDecimal::add);
+		BigDecimal valorDescontoNotas = financeiros.stream().map(fin -> fin.getDesconto()).reduce(BigDecimal.ZERO,
+				BigDecimal::add);
+		BigDecimal valorAcrescimoNotas = financeiros.stream().map(fin -> fin.getAcrescimo()).reduce(BigDecimal.ZERO,
+				BigDecimal::add);
+
+		financeiro = new Financeiro(financeiros.get(0).getNotaCabecalho(), financeiroDTO.getAtribuicao(),
+				financeiroDTO.getVencimento(), valorTotalNotas, financeiroDTO.getCodBarras(), valorDescontoNotas,
+				valorAcrescimoNotas, StatusPagamentoFinanceiro.ABERTO, TipoDirecaoFinanceiro.PAGAR,
+				financeiroDTO.getObservacao(), false, null, financeiros, financeiroDTO.getReferencia());
+		return financeiro;
 	}
 }

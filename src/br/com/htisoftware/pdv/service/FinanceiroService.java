@@ -70,4 +70,29 @@ public class FinanceiroService implements Serializable {
 		PdvUtils.closeDialog("financeiroEdicaoIndividualDialog");
 		PdvUtils.mensagem(FacesMessage.SEVERITY_INFO, "Alteração", "Registro alterado com sucesso.");
 	}
+
+	public void agrupar(List<Financeiro> financeiros, FinanceiroDTO financeiroDTO) {
+		Financeiro financeiro = ERPUtils.criaAgrupamento(financeiros, financeiroDTO);
+		dao.gravar(financeiro);
+		financeiros.forEach(f -> {
+			f.setStatusPagamentoFinanceiro(StatusPagamentoFinanceiro.AGRUPADO);
+			dao.alterar(f);
+		});
+		PdvUtils.closeDialog("financeiroAgrupamentoDialog");
+		PdvUtils.mensagem(FacesMessage.SEVERITY_INFO, "Agrupamento de títulos", "Registros agrupados com sucesso.");
+
+	}
+
+	public boolean titulosDisponiveisParaAgrupamento(List<Financeiro> financeirosSelecionados) {
+		return financeirosSelecionados.stream()
+				.allMatch(financeiro -> financeiro.getNotaCabecalho().getCliente().getNome()
+						.equals(financeirosSelecionados.get(0).getNotaCabecalho().getCliente().getNome()))
+				&& financeirosSelecionados.stream().allMatch(financeiro -> financeiro.getStatusPagamentoFinanceiro()
+						.equals(StatusPagamentoFinanceiro.ABERTO));
+	}
+
+	public boolean tituloDisponivelParaDesmembramento(List<Financeiro> financeiros) {
+		return financeiros.stream().allMatch(
+				financeiro -> financeiro.getStatusPagamentoFinanceiro().equals(StatusPagamentoFinanceiro.ABERTO));
+	}
 }

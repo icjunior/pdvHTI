@@ -13,6 +13,7 @@
 		<ui:include src="/dialog/financeiro_desmembramento.xhtml" />
 		<ui:include src="/dialog/financeiro_alteracao_massa.xhtml" />
 		<ui:include src="/dialog/financeiro_alteracao.xhtml" />
+		<ui:include src="/dialog/financeiro_agrupamento.xhtml" />
 		<div class="Container100">
 			<div class="ContainerIndent">
 				<div class="Card ShadowEffect TexAlLeft">
@@ -162,11 +163,13 @@
 									disabled="#{financeiroBean.financeirosSelecionados.size() != 1}"
 									action="#{financeiroBean.detalhes}" />
 								<p:menuitem value="Desmembrar"
-									disabled="#{financeiroBean.financeirosSelecionados.size() > 1}"
+									disabled="#{financeiroBean.financeirosSelecionados.size() > 1  or !financeiroBean.financeiroDisponivelParaDesmembramento}"
 									onclick="PF('financeiroDesmembramentoDialog').show()"
 									update=":formDesmembramentoFinanceiro:financeiroDL" />
 								<p:menuitem value="Agrupar"
-									disabled="#{financeiroBean.financeirosSelecionados.size() le 1 || financeiroBean.financeirosSelecionados == null}" />
+									disabled="#{!financeiroBean.financeirosDisponiveisParaAgrupamento}"
+									onclick="PF('financeiroAgrupamentoDialog').show()"
+									update=":formFinanceiroAgrupamento" />
 								<p:menuitem value="Gerar arquivo" />
 								<p:menuitem value="Excluir"
 									actionListener="#{financeiroBean.excluir}" update="growl">

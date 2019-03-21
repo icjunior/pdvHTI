@@ -18,6 +18,10 @@ public class FinanceiroDTO implements Serializable {
 	private Cliente fornecedor;
 	private TipoMovimentacaoEstoque tipoMovimentacaoEstoque;
 	private BigInteger nf;
+	private String observacao;
+	private String atribuicao;
+	private String codBarras;
+	private String referencia;
 
 	public Calendar getEmissao() {
 		return emissao;
@@ -74,4 +78,37 @@ public class FinanceiroDTO implements Serializable {
 	public void setVencimento(Calendar vencimento) {
 		this.vencimento = vencimento;
 	}
+
+	public String getObservacao() {
+		return observacao;
+	}
+
+	public void setObservacao(String observacao) {
+		this.observacao = observacao;
+	}
+
+	public String getAtribuicao() {
+		return atribuicao;
+	}
+
+	public void setAtribuicao(String atribuicao) {
+		this.atribuicao = atribuicao;
+	}
+
+	public String getCodBarras() {
+		return codBarras;
+	}
+
+	public void setCodBarras(String codBarras) {
+		this.codBarras = codBarras;
+	}
+
+	public String getReferencia() {
+		return referencia;
+	}
+
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
+
 }
