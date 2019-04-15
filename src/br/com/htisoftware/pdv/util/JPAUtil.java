@@ -12,10 +12,10 @@ import br.com.htisoftware.pdv.annotation.ERP;
 public class JPAUtil {
 
 	@PersistenceUnit(unitName = "hti")
-	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("htiDev");
+	private static EntityManagerFactory emf = Persistence.createEntityManagerFactory("hti");
 
 	@PersistenceUnit(unitName = "erp")
-	private static EntityManagerFactory emfERP = Persistence.createEntityManagerFactory("htiERP");
+	private static EntityManagerFactory emfERP = Persistence.createEntityManagerFactory("hti");
 
 	@Produces
 	@Default

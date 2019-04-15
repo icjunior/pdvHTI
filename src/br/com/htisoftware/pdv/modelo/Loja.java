@@ -27,6 +27,8 @@ public class Loja implements Serializable {
 	private String estado;
 	private String telefone;
 	private boolean ativo;
+	private String complemento;
+	private String numero;
 
 	public int getCodigo() {
 		return codigo;
@@ -122,5 +124,21 @@ public class Loja implements Serializable {
 
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+	public String getNumero() {
+		return numero;
+	}
+
+	public void setNumero(String numero) {
+		this.numero = numero;
 	}
 }
