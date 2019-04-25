@@ -32,11 +32,11 @@
 			<property name="javax.persistence.jdbc.driver"
 				value="org.postgresql.Driver" />
 			<property name="javax.persistence.jdbc.url"
-				value="jdbc:postgresql://localhost/htierp" />
+				value="jdbc:postgresql://ec2-54-227-245-146.compute-1.amazonaws.com/d4d5l1hp61tbj6" />
 			<property name="javax.persistence.jdbc.user"
-				value="postgres" />
+				value="wlwykogzlcofje" />
 			<property name="javax.persistence.jdbc.password"
-				value="123456" />
+				value="9e1ae58a0e4f634455ca96662d7374c8bd56922aa0ac3d48ef17826d7af3f6e2" />
 
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="hibernate.show_sql" value="true" />

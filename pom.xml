@@ -8,7 +8,10 @@
 	<packaging>war</packaging>
 
 	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEnconding>UTF-8</project.build.sourceEnconding>
+		<project.reporting.outputEnconding>UTF-8</project.reporting.outputEnconding>
+		<java.version>1.8</java.version>
+		<nfe.version>4.00.10</nfe.version>
 	</properties>
 
 	<dependencies>
@@ -79,6 +82,13 @@
 			<artifactId>javax.el</artifactId>
 			<version>3.0.1-b09</version>
 		</dependency>
+
+		<!-- NFE -->
+		<dependency>
+			<groupId>br.com.swconsultoria</groupId>
+			<artifactId>java-nfe</artifactId>
+			<version>${nfe.version}</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -95,8 +105,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.7.0</version>
 				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
 				</configuration>
 			</plugin>
 		</plugins>
